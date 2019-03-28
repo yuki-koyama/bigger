@@ -1,0 +1,3 @@
+[submodule "external/bigg"]
+	path = external/bigg
+	url = https://github.com/JoshuaBrookover/bigg.git
