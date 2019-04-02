@@ -24,8 +24,16 @@ set(GLFW_VULKAN_STATIC      OFF CACHE INTERNAL "" FORCE)
 set(LIB_SUFFIX              ""  CACHE INTERNAL "" FORCE)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/bigg)
 
-file(GLOB headers ${CMAKE_CURRENT_SOURCE_DIR}/include/bigger/*.hpp)
-file(GLOB sources ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
+set(headers
+  ${CMAKE_CURRENT_SOURCE_DIR}/include/bigger/bigger.hpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/include/bigger/camera.hpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/include/bigger/primitives/cube.hpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/include/bigger/primitives/abstract-primitive.hpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/include/bigger/primitives/sphere.hpp
+)
+set(sources
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/bigger.cpp
+)
 set(shaders
   ${CMAKE_CURRENT_SOURCE_DIR}/shaders/blinnphong/vs_blinnphong.sc
   ${CMAKE_CURRENT_SOURCE_DIR}/shaders/blinnphong/fs_blinnphong.sc
