@@ -26,10 +26,18 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/bigg)
 
 file(GLOB headers ${CMAKE_CURRENT_SOURCE_DIR}/include/bigger/*.hpp)
 file(GLOB sources ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
+set(shaders
+  ${CMAKE_CURRENT_SOURCE_DIR}/shaders/blinnphong/vs_blinnphong.sc
+  ${CMAKE_CURRENT_SOURCE_DIR}/shaders/blinnphong/fs_blinnphong.sc
+  ${CMAKE_CURRENT_SOURCE_DIR}/shaders/blinnphong/varying.def.sc
+)
 
-add_library(bigger STATIC ${headers} ${sources})
+add_library(bigger STATIC ${headers} ${sources} ${shaders})
 target_link_libraries(bigger PUBLIC bigg)
 target_include_directories(bigger PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
+
+add_shader(${CMAKE_CURRENT_SOURCE_DIR}/shaders/blinnphong/vs_blinnphong.sc VERTEX   OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/shaders DX11_MODEL 5_0 GLSL 130)
+add_shader(${CMAKE_CURRENT_SOURCE_DIR}/shaders/blinnphong/fs_blinnphong.sc FRAGMENT OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/shaders DX11_MODEL 5_0 GLSL 130)
 
 option(BIGGER_EXAMPLES ON "")
 if(BIGGER_EXAMPLES)
