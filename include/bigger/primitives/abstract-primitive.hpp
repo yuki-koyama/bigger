@@ -6,73 +6,76 @@
 #include <bgfx/bgfx.h>
 #include <glm/glm.hpp>
 
-struct PositionNormalVertex
+namespace bigger
 {
-    glm::vec3 position;
-    glm::vec3 normal;
-
-    static bgfx::VertexDecl getVertexDecl()
+    struct PositionNormalVertex
     {
-        bgfx::VertexDecl vertex_decl;
-        vertex_decl.begin()
-        .add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
-        .add(bgfx::Attrib::Normal, 3, bgfx::AttribType::Float)
-        .end();
-        return vertex_decl;
-    }
-};
+        glm::vec3 position;
+        glm::vec3 normal;
 
-class AbstractPrimitive
-{
-public:
-
-    AbstractPrimitive()
-    : m_is_initialized(false)
-    {
-    }
-
-    ~AbstractPrimitive()
-    {
-        if (m_is_initialized)
+        static bgfx::VertexDecl getVertexDecl()
         {
-            bgfx::destroy(m_vertex_buffer_handle);
+            bgfx::VertexDecl vertex_decl;
+            vertex_decl.begin()
+            .add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
+            .add(bgfx::Attrib::Normal, 3, bgfx::AttribType::Float)
+            .end();
+            return vertex_decl;
         }
-    }
+    };
 
-    void initializePrimitive()
+    class AbstractPrimitive
     {
-        prepareBuffers();
+    public:
 
-        const bgfx::VertexDecl vertex_decl = PositionNormalVertex::getVertexDecl();
-        m_vertex_buffer_handle = bgfx::createVertexBuffer(bgfx::makeRef(m_vertices.data(), sizeof(PositionNormalVertex) * m_vertices.size()), vertex_decl);
-        m_index_buffer_handle = bgfx::createIndexBuffer(bgfx::makeRef(m_triangle_list.data(), sizeof(uint16_t) * m_triangle_list.size()));
+        AbstractPrimitive()
+        : m_is_initialized(false)
+        {
+        }
 
-        m_is_initialized = true;
-    }
+        void initializePrimitive()
+        {
+            prepareBuffers();
 
-    void submitPrimitive(bgfx::ProgramHandle program) const
-    {
-        assert(m_is_initialized);
+            const bgfx::VertexDecl vertex_decl = PositionNormalVertex::getVertexDecl();
+            m_vertex_buffer_handle = bgfx::createVertexBuffer(bgfx::makeRef(m_vertices.data(), sizeof(PositionNormalVertex) * m_vertices.size()), vertex_decl);
+            m_index_buffer_handle = bgfx::createIndexBuffer(bgfx::makeRef(m_triangle_list.data(), sizeof(uint16_t) * m_triangle_list.size()));
 
-        bgfx::setVertexBuffer(0, m_vertex_buffer_handle);
-        bgfx::setIndexBuffer(m_index_buffer_handle);
+            m_is_initialized = true;
+        }
 
-        bgfx::submit(0, program);
-    }
+        void submitPrimitive(bgfx::ProgramHandle program) const
+        {
+            assert(m_is_initialized);
 
-protected:
+            bgfx::setVertexBuffer(0, m_vertex_buffer_handle);
+            bgfx::setIndexBuffer(m_index_buffer_handle);
 
-    virtual void prepareBuffers() = 0;
+            bgfx::submit(0, program);
+        }
 
-    std::vector<PositionNormalVertex> m_vertices;
-    std::vector<uint16_t> m_triangle_list;
+        void destroyPrimitive()
+        {
+            assert(m_is_initialized);
 
-private:
+            bgfx::destroy(m_vertex_buffer_handle);
+            bgfx::destroy(m_index_buffer_handle);
+        }
 
-    bool m_is_initialized;
+    protected:
 
-    bgfx::VertexBufferHandle m_vertex_buffer_handle;
-    bgfx::IndexBufferHandle m_index_buffer_handle;
-};
+        virtual void prepareBuffers() = 0;
+
+        std::vector<PositionNormalVertex> m_vertices;
+        std::vector<uint16_t> m_triangle_list;
+
+    private:
+
+        bool m_is_initialized;
+
+        bgfx::VertexBufferHandle m_vertex_buffer_handle;
+        bgfx::IndexBufferHandle m_index_buffer_handle;
+    };
+}
 
 #endif /* abstract_primitive_hpp */
