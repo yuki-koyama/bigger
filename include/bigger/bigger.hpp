@@ -1,6 +1,6 @@
-#ifndef BIGGER_HPP
-#define BIGGER_HPP
+#ifndef bigger_hpp
+#define bigger_hpp
 
 #include <bigg.hpp>
 
-#endif // BIGGER_HPP
+#endif // bigger_hpp
