@@ -1,4 +1,7 @@
+#include <bigger/bigger.hpp>
+
 int main(int argc, char** argv)
 {
-    return 0;
+    bigg::Application app;
+    return app.run(argc, argv);
 }
