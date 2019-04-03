@@ -16,7 +16,7 @@ public:
 
 private:
 
-    float getAspect() { return float(getWidth()) / float(getHeight()); }
+    float getAspect() const { return float(getWidth()) / float(getHeight()); }
 
     bgfx::ProgramHandle m_program;
     bigger::Cube m_cube;
