@@ -62,7 +62,15 @@ void CubeApp::update(float dt)
     bgfx::setViewRect(0, 0, 0, uint16_t(getWidth()), uint16_t(getHeight()));
     bgfx::touch(0);
 
-    constexpr int n = 4;
+    static int n = 4;
+
+    ImGui::Begin("Config");
+    {
+        ImGui::SliderInt("n", &n, 1, 8);
+        ImGui::SliderFloat3("m_camera.position", glm::value_ptr(m_camera.position), - 5.0f, 5.0f);
+    }
+    ImGui::End();
+
     for (int x = - n; x <= n; ++ x)
     {
         for (int y = - n; y <= n; ++ y)
