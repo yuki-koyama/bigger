@@ -15,7 +15,7 @@ namespace bigger
 
         void prepareBuffers() override
         {
-            constexpr double pi = glm::pi<double>();
+            constexpr float pi = glm::pi<float>();
             constexpr int latitude_resolution  = 20;
             constexpr int longitude_resolution = 30;
 
@@ -24,21 +24,21 @@ namespace bigger
 
             for (int i = 0; i < longitude_resolution; ++ i)
             {
-                const double theta_xy_1 = 2.0 * static_cast<double>(i + 0) * pi / static_cast<double>(longitude_resolution);
-                const double theta_xy_2 = 2.0 * static_cast<double>(i + 1) * pi / static_cast<double>(longitude_resolution);
-                const double x_1        = std::cos(theta_xy_1);
-                const double x_2        = std::cos(theta_xy_2);
-                const double y_1        = std::sin(theta_xy_1);
-                const double y_2        = std::sin(theta_xy_2);
+                const float theta_xy_1 = 2.0 * static_cast<float>(i + 0) * pi / static_cast<float>(longitude_resolution);
+                const float theta_xy_2 = 2.0 * static_cast<float>(i + 1) * pi / static_cast<float>(longitude_resolution);
+                const float x_1        = std::cos(theta_xy_1);
+                const float x_2        = std::cos(theta_xy_2);
+                const float y_1        = std::sin(theta_xy_1);
+                const float y_2        = std::sin(theta_xy_2);
 
                 for (int j = 0; j < latitude_resolution; ++ j)
                 {
-                    const double theta_z_1 = static_cast<double>(j + 0) * pi / static_cast<double>(latitude_resolution);
-                    const double theta_z_2 = static_cast<double>(j + 1) * pi / static_cast<double>(latitude_resolution);
-                    const double cos_1 = std::cos(theta_z_1);
-                    const double cos_2 = std::cos(theta_z_2);
-                    const double sin_1 = std::sin(theta_z_1);
-                    const double sin_2 = std::sin(theta_z_2);
+                    const float theta_z_1 = static_cast<float>(j + 0) * pi / static_cast<float>(latitude_resolution);
+                    const float theta_z_2 = static_cast<float>(j + 1) * pi / static_cast<float>(latitude_resolution);
+                    const float cos_1 = std::cos(theta_z_1);
+                    const float cos_2 = std::cos(theta_z_2);
+                    const float sin_1 = std::sin(theta_z_1);
+                    const float sin_2 = std::sin(theta_z_2);
 
                     const int offset = i * latitude_resolution * 6 + j * 6;
 

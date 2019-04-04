@@ -27,9 +27,9 @@ private:
 
 CubeApp::CubeApp()
 {
-    m_camera.position = { 0.0, 0.0, - 5.0 };
-    m_camera.target   = { 0.0, 0.0, 0.0 };
-    m_camera.up       = { 0.0, 1.0, 0.0 };
+    m_camera.position = { 0.0f, 0.0f, - 5.0f };
+    m_camera.target   = { 0.0f, 0.0f, 0.0f };
+    m_camera.up       = { 0.0f, 1.0f, 0.0f };
 }
 
 void CubeApp::initialize(int argc, char** argv)
