@@ -28,15 +28,15 @@ const float gamma = 2.2;
 
 vec3 calculateLambertDiffuse(vec3 normal, vec3 light_dir, vec3 diffuse_color)
 {
-	return max(dot(normal, light_dir), 0.0) * diffuse_color;
+    return max(dot(normal, light_dir), 0.0) * diffuse_color;
 }
 
 vec3 calculateBlinnSpecular(vec3 normal, vec3 view_dir, vec3 light_dir, vec3 specular_color, float shininess)
 {
-	vec3 half_dir = normalize(light_dir + view_dir);
-	float angle = max(dot(half_dir, normal), 0.0);
-	float strength = pow(angle, shininess);
-	return strength * specular_color;
+    vec3 half_dir = normalize(light_dir + view_dir);
+    float angle = max(dot(half_dir, normal), 0.0);
+    float strength = pow(angle, shininess);
+    return strength * specular_color;
 }
 
 vec3 calculateSingleLightShading(DirLight dir_light, Material material, vec3 normal, vec3 view_dir)
@@ -60,8 +60,8 @@ void main()
     linear_color += calculateSingleLightShading(main_light, material, normal, view_dir);
     linear_color += calculateSingleLightShading(sub_light, material, normal, view_dir);
 
-	vec3 corrected_color = pow(linear_color, vec3_splat(1.0 / gamma));
+    vec3 corrected_color = pow(linear_color, vec3_splat(1.0 / gamma));
 
-	gl_FragColor.xyz = corrected_color;
-	gl_FragColor.w = 1.0;
+    gl_FragColor.xyz = corrected_color;
+    gl_FragColor.w = 1.0;
 }
