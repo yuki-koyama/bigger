@@ -1,3 +1,6 @@
 [submodule "external/bigg"]
 	path = external/bigg
 	url = https://github.com/JoshuaBrookover/bigg.git
+[submodule "external/tinyobjloader"]
+	path = external/tinyobjloader
+	url = https://github.com/syoyo/tinyobjloader.git
