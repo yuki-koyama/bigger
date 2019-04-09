@@ -5,11 +5,11 @@
 
 namespace bigger
 {
-    class Sphere : public AbstractPrimitive
+    class SpherePrimitive : public AbstractPrimitive
     {
     public:
 
-        Sphere() : AbstractPrimitive() {}
+        SpherePrimitive() : AbstractPrimitive() {}
 
     private:
 

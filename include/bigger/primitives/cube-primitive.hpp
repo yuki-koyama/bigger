@@ -5,11 +5,11 @@
 
 namespace bigger
 {
-    class Cube : public AbstractPrimitive
+    class CubePrimitive : public AbstractPrimitive
     {
     public:
 
-        Cube() : AbstractPrimitive() {}
+        CubePrimitive() : AbstractPrimitive() {}
 
     private:
 
