@@ -13,7 +13,7 @@ namespace bigger
     {
     public:
 
-        Application()
+        Application() : bigg::Application("", 1280, 720)
         {
             m_camera.position = { 1.0f, 1.0f, - 2.0f };
             m_camera.target   = { 0.0f, 0.0f, 0.0f };
