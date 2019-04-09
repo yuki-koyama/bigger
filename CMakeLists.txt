@@ -36,10 +36,12 @@ set(headers
   ${CMAKE_CURRENT_SOURCE_DIR}/include/bigger/camera.hpp
   ${CMAKE_CURRENT_SOURCE_DIR}/include/bigger/primitives/abstract-primitive.hpp
   ${CMAKE_CURRENT_SOURCE_DIR}/include/bigger/primitives/cube-primitive.hpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/include/bigger/primitives/mesh-primitive.hpp
   ${CMAKE_CURRENT_SOURCE_DIR}/include/bigger/primitives/sphere-primitive.hpp
 )
 set(sources
   ${CMAKE_CURRENT_SOURCE_DIR}/src/bigger.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/mesh-primitive.cpp
 )
 set(shaders
   ${CMAKE_CURRENT_SOURCE_DIR}/shaders/blinnphong/vs_blinnphong.sc
