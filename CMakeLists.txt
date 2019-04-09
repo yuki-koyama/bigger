@@ -24,6 +24,8 @@ set(GLFW_VULKAN_STATIC      OFF CACHE INTERNAL "" FORCE)
 set(LIB_SUFFIX              ""  CACHE INTERNAL "" FORCE)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/bigg)
 
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/rand-util)
+
 set(TINYOBJLOADER_BUILD_OBJ_STICHER OFF CACHE INTERNAL "" FORCE)
 set(TINYOBJLOADER_BUILD_TEST_LOADER OFF CACHE INTERNAL "" FORCE)
 set(TINYOBJLOADER_USE_DOUBLE        OFF CACHE INTERNAL "" FORCE)
@@ -46,7 +48,7 @@ set(shaders
 )
 
 add_library(bigger STATIC ${headers} ${sources} ${shaders})
-target_link_libraries(bigger PUBLIC bigg tinyobjloader)
+target_link_libraries(bigger PUBLIC bigg rand-util tinyobjloader)
 target_include_directories(bigger PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 add_shader(${CMAKE_CURRENT_SOURCE_DIR}/shaders/blinnphong/vs_blinnphong.sc VERTEX   OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/shaders DX11_MODEL 5_0 GLSL 130)

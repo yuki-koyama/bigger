@@ -4,3 +4,6 @@
 [submodule "external/tinyobjloader"]
 	path = external/tinyobjloader
 	url = https://github.com/syoyo/tinyobjloader.git
+[submodule "external/rand-util"]
+	path = external/rand-util
+	url = https://github.com/yuki-koyama/rand-util.git
