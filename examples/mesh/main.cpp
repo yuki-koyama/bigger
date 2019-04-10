@@ -2,13 +2,13 @@
 #include <memory>
 #include <unordered_map>
 #include <bigger/bigger.hpp>
-#include <bigger/primitives/cube-primitive.hpp>
+#include <bigger/primitives/mesh-primitive.hpp>
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
 #include <rand-util.hpp>
 
-class CubeMaterial;
-class CubeObject;
+class MeshMaterial;
+class MeshObject;
 
 class MeshApp : public bigger::Application
 {
@@ -26,14 +26,14 @@ public:
 
 private:
 
-    void addSceneObject(std::shared_ptr<CubeObject> cube_object, const std::string& name = "");
+    void addSceneObject(std::shared_ptr<MeshObject> cube_object, const std::string& name = "");
 
     // Shared resources
-    std::shared_ptr<CubeMaterial> m_cube_material;
-    std::shared_ptr<bigger::CubePrimitive> m_cube_primitive;
+    std::shared_ptr<MeshMaterial> m_mesh_material;
+    std::shared_ptr<bigger::MeshPrimitive> m_mesh_primitive;
 
     // Scene objects
-    std::unordered_map<std::string, std::shared_ptr<CubeObject>> m_cube_objects;
+    std::unordered_map<std::string, std::shared_ptr<MeshObject>> m_objects;
 };
 
 class SceneObject
@@ -57,10 +57,10 @@ public:
     bgfx::ProgramHandle m_program;
 };
 
-class CubeMaterial : public Material
+class MeshMaterial : public Material
 {
 public:
-    CubeMaterial()
+    MeshMaterial()
     {
         const std::string shader_dir_path = bigger::getShaderDirectoryPath(bgfx::getRendererType());
         const std::string vs_path = shader_dir_path + "/" + "vs_blinnphong.bin";
@@ -69,66 +69,56 @@ public:
         m_program = bigg::loadProgram(vs_path.c_str(), fs_path.c_str());
     }
 
-    ~CubeMaterial()
+    ~MeshMaterial()
     {
         bgfx::destroy(m_program);
     }
 };
 
-class CubeObject : public SceneObject
+class MeshObject : public SceneObject
 {
 public:
 
-    CubeObject(const MeshApp* app,
-               const int x,
-               const int y,
-               std::shared_ptr<CubeMaterial> material = nullptr,
-               std::shared_ptr<bigger::CubePrimitive> cube = nullptr) :
-    m_x(x),
-    m_y(y),
+    MeshObject(const MeshApp* app,
+               std::shared_ptr<MeshMaterial> material = nullptr,
+               std::shared_ptr<bigger::MeshPrimitive> mesh = nullptr) :
     m_app(app)
     {
         if (material == nullptr)
         {
-            m_material = std::make_shared<CubeMaterial>();
+            m_material = std::make_shared<MeshMaterial>();
         }
         else
         {
             m_material = material;
         }
 
-        if (cube == nullptr)
+        if (mesh == nullptr)
         {
-            m_cube = std::make_shared<bigger::CubePrimitive>();
-            m_cube->initializePrimitive();
+            throw std::runtime_error("");
         }
-        else
-        {
-            m_cube = cube;
-        }
+
+        m_primitive = mesh;
     }
 
-    ~CubeObject()
+    ~MeshObject()
     {
-        m_cube = nullptr;
+        m_primitive = nullptr;
     }
 
     void update() override
     {
         // Update transform
         const float t = m_app->m_time;
-        m_rotate_matrix = glm::rotate(t, glm::vec3(m_x, m_y, 1.0f));
+        m_rotate_matrix = glm::rotate(t, glm::vec3(0.0f, 1.0f, 0.0f));
     }
 
     void draw(const glm::mat4& parent_transform_matrix = glm::mat4(1.0f)) override
     {
         const glm::mat4 transform_matrix = parent_transform_matrix * m_translate_matrix * m_rotate_matrix * m_scale_matrix;
         bgfx::setTransform(glm::value_ptr(transform_matrix));
-        m_cube->submitPrimitive(m_material->m_program);
+        m_primitive->submitPrimitive(m_material->m_program);
     }
-
-    const int m_x;
-    const int m_y;
 
 private:
 
@@ -136,8 +126,8 @@ private:
     const MeshApp* m_app;
 
     // Assigned resources
-    std::shared_ptr<CubeMaterial> m_material;
-    std::shared_ptr<bigger::CubePrimitive> m_cube;
+    std::shared_ptr<MeshMaterial> m_material;
+    std::shared_ptr<bigger::MeshPrimitive> m_primitive;
 };
 
 MeshApp::MeshApp()
@@ -151,14 +141,16 @@ void MeshApp::initialize(int argc, char** argv)
     reset(BGFX_RESET_VSYNC | BGFX_RESET_MSAA_X8);
 
     // Instantiate shared resources
-    m_cube_material = std::make_shared<CubeMaterial>();
-    m_cube_primitive = std::make_shared<bigger::CubePrimitive>();
-    m_cube_primitive->initializePrimitive();
+    m_mesh_material = std::make_shared<MeshMaterial>();
+
+    const std::string obj_path = "";
+    m_mesh_primitive = std::make_shared<bigger::MeshPrimitive>(obj_path);
+    m_mesh_primitive->initializePrimitive();
 
     // Instantiate scene objects
-    auto cube_object = std::make_shared<CubeObject>(this, 0, 0, m_cube_material, m_cube_primitive);
+    auto mesh_object = std::make_shared<MeshObject>(this, m_mesh_material, m_mesh_primitive);
 
-    addSceneObject(cube_object);
+    addSceneObject(mesh_object);
 }
 
 void MeshApp::onReset()
@@ -189,7 +181,7 @@ void MeshApp::update(float dt)
     bgfx::touch(0);
 
     // Update scene objects
-    for (auto key_value : m_cube_objects)
+    for (auto key_value : m_objects)
     {
         if (key_value.second->m_is_active)
         {
@@ -198,7 +190,7 @@ void MeshApp::update(float dt)
     }
 
     // Draw scene objects
-    for (auto key_value : m_cube_objects)
+    for (auto key_value : m_objects)
     {
         if (key_value.second->m_is_active && key_value.second->m_is_visible)
         {
@@ -210,31 +202,31 @@ void MeshApp::update(float dt)
 int MeshApp::shutdown()
 {
     // Clear scene objects
-    m_cube_objects.clear();
+    m_objects.clear();
 
     // Release shared resources
-    m_cube_material = nullptr;
-    m_cube_primitive = nullptr;
+    m_mesh_material = nullptr;
+    m_mesh_primitive = nullptr;
 
     return 0;
 }
 
-void MeshApp::addSceneObject(std::shared_ptr<CubeObject> cube_object, const std::string& name)
+void MeshApp::addSceneObject(std::shared_ptr<MeshObject> cube_object, const std::string& name)
 {
     if (name.empty())
     {
         const std::string random_name = randutil::GenRandomString();
-        m_cube_objects[random_name] = cube_object;
+        m_objects[random_name] = cube_object;
     }
     else
     {
-        const bool has_the_same_name_object = m_cube_objects.find(name) != m_cube_objects.end();
+        const bool has_the_same_name_object = m_objects.find(name) != m_objects.end();
         if (has_the_same_name_object)
         {
             throw std::runtime_error("");
         }
 
-        m_cube_objects[name] = cube_object;
+        m_objects[name] = cube_object;
     }
 }
 
