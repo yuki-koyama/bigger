@@ -105,7 +105,7 @@ void MeshApp::initialize(int argc, char** argv)
     // Instantiate shared resources
     m_mesh_material = std::make_shared<MeshMaterial>();
 
-    const std::string obj_path = "";
+    const std::string obj_path = "models/teapot.obj";
     m_mesh_primitive = std::make_shared<bigger::MeshPrimitive>(obj_path);
     m_mesh_primitive->initializePrimitive();
 
