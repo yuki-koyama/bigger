@@ -1,23 +1,21 @@
-#ifndef bigger_hpp
-#define bigger_hpp
+#ifndef app_hpp
+#define app_hpp
 
 #include <memory>
 #include <string>
 #include <unordered_map>
 #include <bigg.hpp>
 #include <bigger/camera.hpp>
-#include <bigger/scene-object.hpp>
-#include <rand-util.hpp>
 
 namespace bigger
 {
-    std::string getShaderDirectoryPath(const bgfx::RendererType::Enum renderer_type);
+    class SceneObject;
 
-    class Application : public bigg::Application
+    class App : public bigg::Application
     {
     public:
 
-        Application() : bigg::Application("", 1280, 720)
+        App() : bigg::Application("", 1280, 720)
         {
             m_camera.position = { 1.0f, 1.0f, - 2.0f };
             m_camera.target   = { 0.0f, 0.0f, 0.0f };
@@ -47,24 +45,7 @@ namespace bigger
 
         std::unordered_map<std::string, std::shared_ptr<SceneObject>> m_scene_objects;
 
-        void addSceneObject(std::shared_ptr<SceneObject> scene_object, const std::string& name = "")
-        {
-            if (name.empty())
-            {
-                const std::string random_name = randutil::GenRandomString();
-                m_scene_objects[random_name] = scene_object;
-            }
-            else
-            {
-                const bool has_the_same_name_object = m_scene_objects.find(name) != m_scene_objects.end();
-                if (has_the_same_name_object)
-                {
-                    throw std::runtime_error("");
-                }
-
-                m_scene_objects[name] = scene_object;
-            }
-        }
+        void addSceneObject(std::shared_ptr<SceneObject> scene_object, const std::string& name = "");
 
     private:
 
@@ -72,4 +53,4 @@ namespace bigger
     };
 }
 
-#endif // bigger_hpp
+#endif /* app_hpp */

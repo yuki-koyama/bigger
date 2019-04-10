@@ -1,6 +1,6 @@
 #include <cmath>
 #include <memory>
-#include <bigger/bigger.hpp>
+#include <bigger/app.hpp>
 #include <bigger/material.hpp>
 #include <bigger/scene-object.hpp>
 #include <bigger/primitives/cube-primitive.hpp>
@@ -10,7 +10,7 @@
 class CubeMaterial;
 class CubeObject;
 
-class CubesApp final : public bigger::Application
+class CubesApp final : public bigger::App
 {
 public:
 

@@ -1,8 +1,9 @@
 #ifndef material_hpp
 #define material_hpp
 
+#include <bigger/utils.hpp>
 #include <string>
-#include <bigger/bigger.hpp>
+#include <bigg.hpp>
 
 namespace bigger
 {

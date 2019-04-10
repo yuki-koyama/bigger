@@ -1,4 +1,4 @@
-#include <bigger/bigger.hpp>
+#include <bigger/utils.hpp>
 #include <stdexcept>
 
 std::string bigger::getShaderDirectoryPath(const bgfx::RendererType::Enum renderer_type)
