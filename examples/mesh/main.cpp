@@ -5,7 +5,6 @@
 #include <bigger/primitives/mesh-primitive.hpp>
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
-#include <rand-util.hpp>
 
 class MeshMaterial;
 class MeshObject;
@@ -25,8 +24,6 @@ public:
     float m_time;
 
 private:
-
-    void addSceneObject(std::shared_ptr<MeshObject> cube_object, const std::string& name = "");
 
     // Shared resources
     std::shared_ptr<MeshMaterial> m_mesh_material;
@@ -191,25 +188,6 @@ int MeshApp::shutdown()
     m_mesh_primitive = nullptr;
 
     return 0;
-}
-
-void MeshApp::addSceneObject(std::shared_ptr<MeshObject> cube_object, const std::string& name)
-{
-    if (name.empty())
-    {
-        const std::string random_name = randutil::GenRandomString();
-        m_scene_objects[random_name] = cube_object;
-    }
-    else
-    {
-        const bool has_the_same_name_object = m_scene_objects.find(name) != m_scene_objects.end();
-        if (has_the_same_name_object)
-        {
-            throw std::runtime_error("");
-        }
-
-        m_scene_objects[name] = cube_object;
-    }
 }
 
 int main(int argc, char** argv)

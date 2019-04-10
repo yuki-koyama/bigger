@@ -5,7 +5,6 @@
 #include <bigger/primitives/cube-primitive.hpp>
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
-#include <rand-util.hpp>
 
 class CubeMaterial;
 class CubeObject;
@@ -29,8 +28,6 @@ public:
     const int m_max_massive_level = 8;
 
 private:
-
-    void addSceneObject(std::shared_ptr<CubeObject> cube_object, const std::string& name = "");
 
     // Shared resources
     std::shared_ptr<CubeMaterial> m_cube_material;
@@ -217,25 +214,6 @@ int CubesApp::shutdown()
     m_cube_primitive = nullptr;
 
     return 0;
-}
-
-void CubesApp::addSceneObject(std::shared_ptr<CubeObject> cube_object, const std::string& name)
-{
-    if (name.empty())
-    {
-        const std::string random_name = randutil::GenRandomString();
-        m_scene_objects[random_name] = cube_object;
-    }
-    else
-    {
-        const bool has_the_same_name_object = m_scene_objects.find(name) != m_scene_objects.end();
-        if (has_the_same_name_object)
-        {
-            throw std::runtime_error("");
-        }
-
-        m_scene_objects[name] = cube_object;
-    }
 }
 
 int main(int argc, char** argv)
