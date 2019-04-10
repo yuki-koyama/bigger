@@ -16,6 +16,11 @@ namespace bigger
         glm::mat4 m_scale_matrix = glm::mat4(1.0f);
         glm::mat4 m_translate_matrix = glm::mat4(1.0f);
 
+        glm::mat4 getTransform() const
+        {
+            return m_translate_matrix * m_rotate_matrix * m_scale_matrix;
+        }
+
         bool m_is_active = true;
         bool m_is_visible = true;
     };

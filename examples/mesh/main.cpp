@@ -94,7 +94,7 @@ public:
 
     void draw(const glm::mat4& parent_transform_matrix = glm::mat4(1.0f)) override
     {
-        const glm::mat4 transform_matrix = parent_transform_matrix * m_translate_matrix * m_rotate_matrix * m_scale_matrix;
+        const glm::mat4 transform_matrix = parent_transform_matrix * getTransform();
         bgfx::setTransform(glm::value_ptr(transform_matrix));
         m_primitive->submitPrimitive(m_material->m_program);
     }
