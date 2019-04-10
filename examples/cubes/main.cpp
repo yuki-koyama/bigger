@@ -10,7 +10,7 @@
 class CubeMaterial;
 class CubeObject;
 
-class CubesApp : public bigger::Application
+class CubesApp final : public bigger::Application
 {
 public:
 

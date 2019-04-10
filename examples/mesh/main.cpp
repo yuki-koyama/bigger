@@ -10,7 +10,7 @@
 class MeshMaterial;
 class MeshObject;
 
-class MeshApp : public bigger::Application
+class MeshApp final : public bigger::Application
 {
 public:
 
