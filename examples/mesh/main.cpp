@@ -22,9 +22,6 @@ public:
     void updateApp() override;
     void releaseSharedResources() override;
 
-    // State variables
-    float m_time;
-
 private:
 
     // Shared resources
