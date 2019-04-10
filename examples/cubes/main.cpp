@@ -2,6 +2,7 @@
 #include <memory>
 #include <unordered_map>
 #include <bigger/bigger.hpp>
+#include <bigger/scene-object.hpp>
 #include <bigger/primitives/cube-primitive.hpp>
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
@@ -40,21 +41,6 @@ private:
     std::unordered_map<std::string, std::shared_ptr<CubeObject>> m_cube_objects;
 };
 
-class SceneObject
-{
-public:
-
-    virtual void update() {}
-    virtual void draw(const glm::mat4& parent_transform_matrix = glm::mat4(1.0f)) {}
-
-    glm::mat4 m_rotate_matrix = glm::mat4(1.0f);
-    glm::mat4 m_scale_matrix = glm::mat4(1.0f);
-    glm::mat4 m_translate_matrix = glm::mat4(1.0f);
-
-    bool m_is_active = true;
-    bool m_is_visible = true;
-};
-
 class Material
 {
 public:
@@ -79,7 +65,7 @@ public:
     }
 };
 
-class CubeObject : public SceneObject
+class CubeObject : public bigger::SceneObject
 {
 public:
 
