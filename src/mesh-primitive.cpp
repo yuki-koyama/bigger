@@ -5,8 +5,7 @@
 #define TINYOBJLOADER_IMPLEMENTATION
 #include <tiny_obj_loader.h>
 
-bigger::MeshPrimitive::MeshPrimitive(const std::string& obj_path) :
-bigger::AbstractPrimitive()
+bigger::MeshPrimitive::MeshPrimitive(const std::string& obj_path)
 {
     tinyobj::attrib_t attrib;
     std::vector<tinyobj::shape_t> shapes;
@@ -20,10 +19,26 @@ bigger::AbstractPrimitive()
     if (!err.empty()) { std::cerr << err << std::endl; }
     if (!return_value) { throw std::runtime_error(""); }
 
-    // TODO
-}
+    if (attrib.vertices.empty() || attrib.normals.empty()) { throw std::runtime_error(""); }
 
-void bigger::MeshPrimitive::prepareBuffers()
-{
-    // TODO
+    for (const auto& shape : shapes)
+    {
+        for (const auto& index : shape.mesh.indices)
+        {
+            m_vertices.push_back(
+            {
+                {
+                    attrib.vertices[3 * index.vertex_index + 0],
+                    attrib.vertices[3 * index.vertex_index + 1],
+                    attrib.vertices[3 * index.vertex_index + 2],
+                },
+                {
+                    attrib.normals[3 * index.normal_index + 0],
+                    attrib.normals[3 * index.normal_index + 1],
+                    attrib.normals[3 * index.normal_index + 2],
+                }
+            });
+            m_triangle_list.push_back(uint16_t(m_triangle_list.size()));
+        }
+    }
 }
