@@ -111,7 +111,6 @@ private:
 
 CubesApp::CubesApp()
 {
-    m_time = 0.0f;
     m_massive_level = 2;
 }
 

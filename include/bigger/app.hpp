@@ -20,6 +20,8 @@ namespace bigger
             m_camera.position = { 1.0f, 1.0f, - 2.0f };
             m_camera.target   = { 0.0f, 0.0f, 0.0f };
             m_camera.up       = { 0.0f, 1.0f, 0.0f };
+
+            m_time = 0.0f;
         }
 
         // Events to be overridden

@@ -14,7 +14,10 @@ class MeshApp final : public bigger::App
 {
 public:
 
-    MeshApp();
+    MeshApp()
+    {
+        getCamera().target = glm::vec3(0.0f, 0.3f, 0.0f);
+    }
 
     void initialize(int argc, char** argv) override;
     void onReset() override;
@@ -89,11 +92,6 @@ private:
     std::shared_ptr<MeshMaterial> m_material;
     std::shared_ptr<bigger::MeshPrimitive> m_primitive;
 };
-
-MeshApp::MeshApp()
-{
-    m_time = 0.0f;
-}
 
 void MeshApp::initialize(int argc, char** argv)
 {
