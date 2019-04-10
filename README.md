@@ -19,4 +19,6 @@ This library, named `bigger`, is a prototype-oriented middleware library for 3D 
   - Dear ImGui <https://github.com/ocornut/imgui> [MIT]
   - GLFW <https://github.com/glfw/glfw> [Zlib]
   - GLM <https://github.com/g-truc/glm> [MIT]
+- random-util <https://github.com/yuki-koyama/rand-util> [MIT]
+- tinyobjloader <https://github.com/syoyo/tinyobjloader> [MIT]
 - Standard Template Library (C++17)
