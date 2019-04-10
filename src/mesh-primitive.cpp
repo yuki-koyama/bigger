@@ -17,15 +17,8 @@ bigger::AbstractPrimitive()
     bool return_value = tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, obj_path.c_str());
 
     if (!warn.empty()) { std::cerr << warn << std::endl; }
-    if (!err.empty())
-    {
-        std::cerr << err << std::endl;
-        throw std::runtime_error("");
-    }
-    if (!return_value)
-    {
-        throw std::runtime_error("");
-    }
+    if (!err.empty()) { std::cerr << err << std::endl; }
+    if (!return_value) { throw std::runtime_error(""); }
 
     // TODO
 }
