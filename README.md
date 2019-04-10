@@ -2,6 +2,8 @@
 
 bigg (bgfx + imgui + glfw + glm) + utils
 
+This library, named `bigger`, is a prototype-oriented middleware library for 3D interactive applications. Based on a library named `bigg`, which stands for `bgfx` + `imgui` + `glfw` + `glm`, this library adds some higher-level utilities (such as renderable primitive classes) to make the prototyping of lightweight and cross-platform apps even easier.
+
 ## Languages
 
 - C++17
