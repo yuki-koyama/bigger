@@ -35,7 +35,8 @@ namespace bigger
 
         void initializePrimitive()
         {
-            prepareBuffers();
+            assert(!m_vertices.empty());
+            assert(!m_triangle_list.empty());
 
             const bgfx::VertexDecl vertex_decl = PositionNormalVertex::getVertexDecl();
             m_vertex_buffer_handle = bgfx::createVertexBuffer(bgfx::makeRef(m_vertices.data(), sizeof(PositionNormalVertex) * m_vertices.size()), vertex_decl);
@@ -63,8 +64,6 @@ namespace bigger
         }
 
     protected:
-
-        virtual void prepareBuffers() = 0;
 
         std::vector<PositionNormalVertex> m_vertices;
         std::vector<uint16_t> m_triangle_list;

@@ -9,11 +9,7 @@ namespace bigger
     {
     public:
 
-        CubePrimitive() : AbstractPrimitive() {}
-
-    private:
-
-        void prepareBuffers() override
+        CubePrimitive()
         {
             m_vertices =
             {

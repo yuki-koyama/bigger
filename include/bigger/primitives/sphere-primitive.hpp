@@ -9,11 +9,7 @@ namespace bigger
     {
     public:
 
-        SpherePrimitive() : AbstractPrimitive() {}
-
-    private:
-
-        void prepareBuffers() override
+        SpherePrimitive()
         {
             constexpr float pi = glm::pi<float>();
             constexpr int latitude_resolution  = 20;

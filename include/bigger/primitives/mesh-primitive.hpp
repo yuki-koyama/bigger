@@ -9,12 +9,7 @@ namespace bigger
     class MeshPrimitive : public AbstractPrimitive
     {
     public:
-
         MeshPrimitive(const std::string& obj_path);
-
-    private:
-
-        void prepareBuffers() override;
     };
 }
 
