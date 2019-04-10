@@ -1,6 +1,5 @@
 #include <cmath>
 #include <memory>
-#include <unordered_map>
 #include <bigger/bigger.hpp>
 #include <bigger/scene-object.hpp>
 #include <bigger/primitives/cube-primitive.hpp>
@@ -36,9 +35,6 @@ private:
     // Shared resources
     std::shared_ptr<CubeMaterial> m_cube_material;
     std::shared_ptr<bigger::CubePrimitive> m_cube_primitive;
-
-    // Scene objects
-    std::unordered_map<std::string, std::shared_ptr<CubeObject>> m_cube_objects;
 };
 
 class Material
@@ -193,7 +189,7 @@ void CubesApp::update(float dt)
     bgfx::touch(0);
 
     // Update scene objects
-    for (auto key_value : m_cube_objects)
+    for (auto key_value : m_scene_objects)
     {
         if (key_value.second->m_is_active)
         {
@@ -202,7 +198,7 @@ void CubesApp::update(float dt)
     }
 
     // Draw scene objects
-    for (auto key_value : m_cube_objects)
+    for (auto key_value : m_scene_objects)
     {
         if (key_value.second->m_is_active && key_value.second->m_is_visible)
         {
@@ -214,7 +210,7 @@ void CubesApp::update(float dt)
 int CubesApp::shutdown()
 {
     // Clear scene objects
-    m_cube_objects.clear();
+    m_scene_objects.clear();
 
     // Release shared resources
     m_cube_material = nullptr;
@@ -228,17 +224,17 @@ void CubesApp::addSceneObject(std::shared_ptr<CubeObject> cube_object, const std
     if (name.empty())
     {
         const std::string random_name = randutil::GenRandomString();
-        m_cube_objects[random_name] = cube_object;
+        m_scene_objects[random_name] = cube_object;
     }
     else
     {
-        const bool has_the_same_name_object = m_cube_objects.find(name) != m_cube_objects.end();
+        const bool has_the_same_name_object = m_scene_objects.find(name) != m_scene_objects.end();
         if (has_the_same_name_object)
         {
             throw std::runtime_error("");
         }
 
-        m_cube_objects[name] = cube_object;
+        m_scene_objects[name] = cube_object;
     }
 }
 

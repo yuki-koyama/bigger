@@ -1,9 +1,12 @@
 #ifndef bigger_hpp
 #define bigger_hpp
 
+#include <memory>
 #include <string>
+#include <unordered_map>
 #include <bigg.hpp>
 #include <bigger/camera.hpp>
+#include <bigger/scene-object.hpp>
 
 namespace bigger
 {
@@ -40,6 +43,8 @@ namespace bigger
 
         const Camera& getCamera() const { return m_camera; }
         Camera& getCamera() { return m_camera; }
+
+        std::unordered_map<std::string, std::shared_ptr<SceneObject>> m_scene_objects;
 
     private:
 
