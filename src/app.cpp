@@ -30,6 +30,29 @@ void bigger::App::update(float dt)
 
     // Call the application-specific update method
     updateApp();
+
+    // Update scene objects
+    for (auto key_value : m_scene_objects)
+    {
+        if (key_value.second->m_is_active)
+        {
+            key_value.second->update();
+        }
+    }
+
+    // Prepare drawing
+    setViewProj();
+    setRect();
+    bgfx::touch(0);
+
+    // Draw scene objects
+    for (auto key_value : m_scene_objects)
+    {
+        if (key_value.second->m_is_active && key_value.second->m_is_visible)
+        {
+            key_value.second->draw();
+        }
+    }
 }
 
 int bigger::App::shutdown()

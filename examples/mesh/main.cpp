@@ -131,29 +131,6 @@ void MeshApp::updateApp()
         ImGui::SliderFloat3("camera.position", glm::value_ptr(getCamera().position), - 10.0f, 10.0f);
     }
     ImGui::End();
-
-    // Prepare drawing
-    setViewProj();
-    setRect();
-    bgfx::touch(0);
-
-    // Update scene objects
-    for (auto key_value : m_scene_objects)
-    {
-        if (key_value.second->m_is_active)
-        {
-            key_value.second->update();
-        }
-    }
-
-    // Draw scene objects
-    for (auto key_value : m_scene_objects)
-    {
-        if (key_value.second->m_is_active && key_value.second->m_is_visible)
-        {
-            key_value.second->draw();
-        }
-    }
 }
 
 void MeshApp::releaseSharedResources()
