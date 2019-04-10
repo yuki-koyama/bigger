@@ -18,8 +18,8 @@ public:
 
     void initialize(int argc, char** argv) override;
     void onReset() override;
-    void update(float dt) override;
 
+    void updateApp() override;
     void releaseSharedResources() override;
 
     // State variables
@@ -123,16 +123,13 @@ void MeshApp::onReset()
     bgfx::setViewClear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, bg_color, 1.0f, 0);
 }
 
-void MeshApp::update(float dt)
+void MeshApp::updateApp()
 {
-    // Update state variables
-    m_time += dt;
-
     // Display ImGui components
     ImGui::Begin("Config");
     {
         ImGui::Text("time: %.2f", m_time);
-        ImGui::Text("fps: %.2f", 1.0f / dt);
+        ImGui::Text("fps: %.2f", 1.0f / m_last_dt);
         ImGui::Separator();
         ImGui::SliderFloat3("camera.position", glm::value_ptr(getCamera().position), - 10.0f, 10.0f);
     }

@@ -23,12 +23,12 @@ namespace bigger
         }
 
         // Events to be overridden
+        virtual void updateApp() = 0;
         virtual void releaseSharedResources() = 0;
 
         // Events to be overridden, provided by bigg::Application
         virtual void initialize(int argc, char** argv) override = 0;
         virtual void onReset() override = 0;
-        virtual void update(float dt) override = 0;
 
         void setRect()
         {
@@ -51,6 +51,8 @@ namespace bigger
         const Camera& getCamera() const { return m_camera; }
         Camera& getCamera() { return m_camera; }
 
+        float m_time;
+        float m_last_dt;
         std::unordered_map<std::string, std::shared_ptr<SceneObject>> m_scene_objects;
 
         void addSceneObject(std::shared_ptr<SceneObject> scene_object, const std::string& name = "");
@@ -58,6 +60,7 @@ namespace bigger
     private:
 
         // Events provided by bigg::Application
+        void update(float dt) override;
         int shutdown() override;
 
         Camera m_camera;
