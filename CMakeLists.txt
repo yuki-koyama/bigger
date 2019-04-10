@@ -34,6 +34,7 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/tinyobjloader)
 set(headers
   ${CMAKE_CURRENT_SOURCE_DIR}/include/bigger/bigger.hpp
   ${CMAKE_CURRENT_SOURCE_DIR}/include/bigger/camera.hpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/include/bigger/material.hpp
   ${CMAKE_CURRENT_SOURCE_DIR}/include/bigger/scene-object.hpp
   ${CMAKE_CURRENT_SOURCE_DIR}/include/bigger/primitives/abstract-primitive.hpp
   ${CMAKE_CURRENT_SOURCE_DIR}/include/bigger/primitives/cube-primitive.hpp

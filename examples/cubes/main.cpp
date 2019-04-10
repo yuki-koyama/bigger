@@ -1,6 +1,7 @@
 #include <cmath>
 #include <memory>
 #include <bigger/bigger.hpp>
+#include <bigger/material.hpp>
 #include <bigger/scene-object.hpp>
 #include <bigger/primitives/cube-primitive.hpp>
 #include <glm/glm.hpp>
@@ -34,31 +35,13 @@ private:
     std::shared_ptr<bigger::CubePrimitive> m_cube_primitive;
 };
 
-class Material
+class CubeMaterial final : public bigger::Material
 {
 public:
-    bgfx::ProgramHandle m_program;
+    CubeMaterial() : bigger::Material("blinnphong") {}
 };
 
-class CubeMaterial : public Material
-{
-public:
-    CubeMaterial()
-    {
-        const std::string shader_dir_path = bigger::getShaderDirectoryPath(bgfx::getRendererType());
-        const std::string vs_path = shader_dir_path + "/" + "vs_blinnphong.bin";
-        const std::string fs_path = shader_dir_path + "/" + "fs_blinnphong.bin";
-
-        m_program = bigg::loadProgram(vs_path.c_str(), fs_path.c_str());
-    }
-
-    ~CubeMaterial()
-    {
-        bgfx::destroy(m_program);
-    }
-};
-
-class CubeObject : public bigger::SceneObject
+class CubeObject final : public bigger::SceneObject
 {
 public:
 

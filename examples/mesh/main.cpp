@@ -1,6 +1,7 @@
 #include <cmath>
 #include <memory>
 #include <bigger/bigger.hpp>
+#include <bigger/material.hpp>
 #include <bigger/scene-object.hpp>
 #include <bigger/primitives/mesh-primitive.hpp>
 #include <glm/glm.hpp>
@@ -30,31 +31,13 @@ private:
     std::shared_ptr<bigger::MeshPrimitive> m_mesh_primitive;
 };
 
-class Material
+class MeshMaterial final : public bigger::Material
 {
 public:
-    bgfx::ProgramHandle m_program;
+    MeshMaterial() : bigger::Material("blinnphong") {}
 };
 
-class MeshMaterial : public Material
-{
-public:
-    MeshMaterial()
-    {
-        const std::string shader_dir_path = bigger::getShaderDirectoryPath(bgfx::getRendererType());
-        const std::string vs_path = shader_dir_path + "/" + "vs_blinnphong.bin";
-        const std::string fs_path = shader_dir_path + "/" + "fs_blinnphong.bin";
-
-        m_program = bigg::loadProgram(vs_path.c_str(), fs_path.c_str());
-    }
-
-    ~MeshMaterial()
-    {
-        bgfx::destroy(m_program);
-    }
-};
-
-class MeshObject : public bigger::SceneObject
+class MeshObject final : public bigger::SceneObject
 {
 public:
 
