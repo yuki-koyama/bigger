@@ -10,11 +10,11 @@
 class CubeMaterial;
 class CubeObject;
 
-class CubeApp : public bigger::Application
+class CubesApp : public bigger::Application
 {
 public:
 
-    CubeApp();
+    CubesApp();
 
     void initialize(int argc, char** argv) override;
     void onReset() override;
@@ -83,7 +83,7 @@ class CubeObject : public SceneObject
 {
 public:
 
-    CubeObject(const CubeApp* app,
+    CubeObject(const CubesApp* app,
                const int x,
                const int y,
                std::shared_ptr<CubeMaterial> material = nullptr,
@@ -140,20 +140,20 @@ public:
 private:
 
     // Pointer to the app
-    const CubeApp* m_app;
+    const CubesApp* m_app;
 
     // Assigned resources
     std::shared_ptr<CubeMaterial> m_material;
     std::shared_ptr<bigger::CubePrimitive> m_cube;
 };
 
-CubeApp::CubeApp()
+CubesApp::CubesApp()
 {
     m_time = 0.0f;
     m_massive_level = 2;
 }
 
-void CubeApp::initialize(int argc, char** argv)
+void CubesApp::initialize(int argc, char** argv)
 {
     // Register and apply BGFX configuration settings
     reset(BGFX_RESET_VSYNC | BGFX_RESET_MSAA_X8);
@@ -178,14 +178,14 @@ void CubeApp::initialize(int argc, char** argv)
     }
 }
 
-void CubeApp::onReset()
+void CubesApp::onReset()
 {
     constexpr uint32_t bg_color = 0x303030ff;
 
     bgfx::setViewClear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, bg_color, 1.0f, 0);
 }
 
-void CubeApp::update(float dt)
+void CubesApp::update(float dt)
 {
     // Update state variables
     m_time += dt;
@@ -225,7 +225,7 @@ void CubeApp::update(float dt)
     }
 }
 
-int CubeApp::shutdown()
+int CubesApp::shutdown()
 {
     // Clear scene objects
     m_cube_objects.clear();
@@ -237,7 +237,7 @@ int CubeApp::shutdown()
     return 0;
 }
 
-void CubeApp::addSceneObject(std::shared_ptr<CubeObject> cube_object, const std::string& name)
+void CubesApp::addSceneObject(std::shared_ptr<CubeObject> cube_object, const std::string& name)
 {
     if (name.empty())
     {
@@ -258,6 +258,6 @@ void CubeApp::addSceneObject(std::shared_ptr<CubeObject> cube_object, const std:
 
 int main(int argc, char** argv)
 {
-    CubeApp app;
+    CubesApp app;
     return app.run(argc, argv);
 }

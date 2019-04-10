@@ -10,11 +10,11 @@
 class CubeMaterial;
 class CubeObject;
 
-class CubeApp : public bigger::Application
+class MeshApp : public bigger::Application
 {
 public:
 
-    CubeApp();
+    MeshApp();
 
     void initialize(int argc, char** argv) override;
     void onReset() override;
@@ -23,10 +23,6 @@ public:
 
     // State variables
     float m_time;
-    int m_massive_level;
-
-    // Const variables
-    const int m_max_massive_level = 8;
 
 private:
 
@@ -83,7 +79,7 @@ class CubeObject : public SceneObject
 {
 public:
 
-    CubeObject(const CubeApp* app,
+    CubeObject(const MeshApp* app,
                const int x,
                const int y,
                std::shared_ptr<CubeMaterial> material = nullptr,
@@ -122,9 +118,6 @@ public:
         // Update transform
         const float t = m_app->m_time;
         m_rotate_matrix = glm::rotate(t, glm::vec3(m_x, m_y, 1.0f));
-
-        // Update visibility
-        m_is_visible = std::max(std::abs(m_x), std::abs(m_y)) <= m_app->m_massive_level;
     }
 
     void draw(const glm::mat4& parent_transform_matrix = glm::mat4(1.0f)) override
@@ -140,20 +133,19 @@ public:
 private:
 
     // Pointer to the app
-    const CubeApp* m_app;
+    const MeshApp* m_app;
 
     // Assigned resources
     std::shared_ptr<CubeMaterial> m_material;
     std::shared_ptr<bigger::CubePrimitive> m_cube;
 };
 
-CubeApp::CubeApp()
+MeshApp::MeshApp()
 {
     m_time = 0.0f;
-    m_massive_level = 2;
 }
 
-void CubeApp::initialize(int argc, char** argv)
+void MeshApp::initialize(int argc, char** argv)
 {
     // Register and apply BGFX configuration settings
     reset(BGFX_RESET_VSYNC | BGFX_RESET_MSAA_X8);
@@ -164,28 +156,19 @@ void CubeApp::initialize(int argc, char** argv)
     m_cube_primitive->initializePrimitive();
 
     // Instantiate scene objects
-    for (int x = - m_max_massive_level; x <= m_max_massive_level; ++ x)
-    {
-        for (int y = - m_max_massive_level; y <= m_max_massive_level; ++ y)
-        {
-            auto cube_object = std::make_shared<CubeObject>(this, x, y, m_cube_material, m_cube_primitive);
+    auto cube_object = std::make_shared<CubeObject>(this, 0, 0, m_cube_material, m_cube_primitive);
 
-            cube_object->m_translate_matrix = glm::translate(glm::vec3(x, y, 0.0f));
-            cube_object->m_scale_matrix = glm::scale(glm::vec3(std::pow(3.0f, - 0.5f)));
-
-            addSceneObject(cube_object);
-        }
-    }
+    addSceneObject(cube_object);
 }
 
-void CubeApp::onReset()
+void MeshApp::onReset()
 {
     constexpr uint32_t bg_color = 0x303030ff;
 
     bgfx::setViewClear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, bg_color, 1.0f, 0);
 }
 
-void CubeApp::update(float dt)
+void MeshApp::update(float dt)
 {
     // Update state variables
     m_time += dt;
@@ -196,7 +179,6 @@ void CubeApp::update(float dt)
         ImGui::Text("time: %.2f", m_time);
         ImGui::Text("fps: %.2f", 1.0f / dt);
         ImGui::Separator();
-        ImGui::SliderInt("massive_level", &m_massive_level, 1, m_max_massive_level);
         ImGui::SliderFloat3("camera.position", glm::value_ptr(getCamera().position), - 10.0f, 10.0f);
     }
     ImGui::End();
@@ -225,7 +207,7 @@ void CubeApp::update(float dt)
     }
 }
 
-int CubeApp::shutdown()
+int MeshApp::shutdown()
 {
     // Clear scene objects
     m_cube_objects.clear();
@@ -237,7 +219,7 @@ int CubeApp::shutdown()
     return 0;
 }
 
-void CubeApp::addSceneObject(std::shared_ptr<CubeObject> cube_object, const std::string& name)
+void MeshApp::addSceneObject(std::shared_ptr<CubeObject> cube_object, const std::string& name)
 {
     if (name.empty())
     {
@@ -258,6 +240,6 @@ void CubeApp::addSceneObject(std::shared_ptr<CubeObject> cube_object, const std:
 
 int main(int argc, char** argv)
 {
-    CubeApp app;
+    MeshApp app;
     return app.run(argc, argv);
 }
