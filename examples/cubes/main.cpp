@@ -19,7 +19,8 @@ public:
     void initialize(int argc, char** argv) override;
     void onReset() override;
     void update(float dt) override;
-    int shutdown() override;
+
+    void releaseSharedResources() override;
 
     // State variables
     float m_time;
@@ -187,16 +188,11 @@ void CubesApp::update(float dt)
     }
 }
 
-int CubesApp::shutdown()
+void CubesApp::releaseSharedResources()
 {
-    // Clear scene objects
-    m_scene_objects.clear();
-
     // Release shared resources
     m_cube_material = nullptr;
     m_cube_primitive = nullptr;
-
-    return 0;
 }
 
 int main(int argc, char** argv)

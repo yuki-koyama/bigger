@@ -22,6 +22,14 @@ namespace bigger
             m_camera.up       = { 0.0f, 1.0f, 0.0f };
         }
 
+        // Events to be overridden
+        virtual void releaseSharedResources() = 0;
+
+        // Events to be overridden, provided by bigg::Application
+        virtual void initialize(int argc, char** argv) override = 0;
+        virtual void onReset() override = 0;
+        virtual void update(float dt) override = 0;
+
         void setRect()
         {
             bgfx::setViewRect(0, 0, 0, uint16_t(getWidth()), uint16_t(getHeight()));
@@ -48,6 +56,9 @@ namespace bigger
         void addSceneObject(std::shared_ptr<SceneObject> scene_object, const std::string& name = "");
 
     private:
+
+        // Events provided by bigg::Application
+        int shutdown() override;
 
         Camera m_camera;
     };

@@ -22,3 +22,10 @@ void bigger::App::addSceneObject(std::shared_ptr<SceneObject> scene_object, cons
     }
 }
 
+int bigger::App::shutdown()
+{
+    m_scene_objects.clear();
+    releaseSharedResources();
+
+    return 0;
+}
