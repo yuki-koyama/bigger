@@ -60,4 +60,7 @@ option(BIGGER_EXAMPLES ON "")
 if(BIGGER_EXAMPLES)
   add_executable(cubes ${CMAKE_CURRENT_SOURCE_DIR}/examples/cubes/main.cpp)
   target_link_libraries(cubes bigger)
+
+  add_executable(mesh ${CMAKE_CURRENT_SOURCE_DIR}/examples/mesh/main.cpp)
+  target_link_libraries(mesh bigger)
 endif()
