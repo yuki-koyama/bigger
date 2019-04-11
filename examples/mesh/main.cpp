@@ -1,3 +1,4 @@
+#include <array>
 #include <cmath>
 #include <memory>
 #include <bigger/app.hpp>
@@ -35,7 +36,46 @@ private:
 class MeshMaterial final : public bigger::Material
 {
 public:
-    MeshMaterial() : bigger::Material("blinnphong") {}
+
+    MeshMaterial() : bigger::Material("blinnphong")
+    {
+        m_is_uniform_dirty = true;
+
+        m_handle = bgfx::createUniform("u_params", bgfx::UniformType::Vec4, 3);
+
+        updateUniforms();
+    }
+
+    ~MeshMaterial()
+    {
+        bgfx::destroy(m_handle);
+    }
+
+    void updateUniforms()
+    {
+        constexpr float dummy = 0.0f;
+
+        const std::array<glm::vec4, 3> buffer =
+        {{
+            { u_diffuse, dummy },
+            { u_specular, dummy },
+            { u_ambient, u_shininess },
+        }};
+        bgfx::setUniform(m_handle, buffer.data(), 3);
+
+        m_is_uniform_dirty = false;
+    }
+
+    glm::vec3 u_diffuse = glm::vec3(0.5f, 0.4f, 0.6f);
+    glm::vec3 u_specular = glm::vec3(1.0f, 1.0f, 1.0f);
+    glm::vec3 u_ambient = glm::vec3(0.0f, 0.0f, 0.0f);
+    float u_shininess = 128.0f;
+
+    bool m_is_uniform_dirty;
+
+private:
+
+    bgfx::UniformHandle m_handle;
 };
 
 class MeshObject final : public bigger::SceneObject
