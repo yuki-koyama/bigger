@@ -62,6 +62,14 @@ public:
         bgfx::setUniform(m_handle, buffer.data(), 3);
     }
 
+    void drawImgui() override
+    {
+        ImGui::SliderFloat3("diffuse", glm::value_ptr(u_diffuse), 0.0f, 1.0f);
+        ImGui::SliderFloat3("specular", glm::value_ptr(u_specular), 0.0f, 1.0f);
+        ImGui::SliderFloat3("ambient", glm::value_ptr(u_ambient), 0.0f, 1.0f);
+        ImGui::SliderFloat("shininess", &u_shininess, 0.1f, 256.0f);
+    }
+    
     glm::vec3 u_diffuse = glm::vec3(0.5f, 0.4f, 0.6f);
     glm::vec3 u_specular = glm::vec3(1.0f, 1.0f, 1.0f);
     glm::vec3 u_ambient = glm::vec3(0.0f, 0.0f, 0.0f);
@@ -188,6 +196,8 @@ void CubesApp::updateApp()
         ImGui::Separator();
         ImGui::SliderFloat3("camera.position", glm::value_ptr(getCamera().m_position), - 10.0f, 10.0f);
         ImGui::SliderFloat("camera.fov", &(getCamera().m_fov), 10.0f, 120.0f);
+        ImGui::Separator();
+        m_cube_material->drawImgui();
         ImGui::Separator();
         ImGui::SliderInt("massive_level", &m_massive_level, 1, m_max_massive_level);
     }

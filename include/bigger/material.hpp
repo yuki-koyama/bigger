@@ -26,6 +26,7 @@ namespace bigger
         }
 
         virtual void submitUniforms() {}
+        virtual void drawImgui() {}
 
         bgfx::ProgramHandle m_program;
     };
