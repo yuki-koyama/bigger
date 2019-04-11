@@ -104,11 +104,6 @@ public:
         m_primitive = mesh;
     }
 
-    ~MeshObject()
-    {
-        m_primitive = nullptr;
-    }
-
     void update() override
     {
         // Update transform

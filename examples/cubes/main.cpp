@@ -113,11 +113,6 @@ public:
         }
     }
 
-    ~CubeObject()
-    {
-        m_cube = nullptr;
-    }
-
     void update() override
     {
         // Update transform
