@@ -10,6 +10,7 @@ namespace bigger
     class Material
     {
     public:
+        
         Material(const std::string& shader_name)
         {
             const std::string shader_dir_path = getShaderDirectoryPath(bgfx::getRendererType());
