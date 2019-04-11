@@ -150,6 +150,8 @@ private:
 
 CubesApp::CubesApp()
 {
+    getCamera().m_position = glm::vec3(0.0f, 0.0f, - 5.0f);
+
     m_massive_level = 2;
 }
 
@@ -193,8 +195,10 @@ void CubesApp::updateApp()
         ImGui::Text("time: %.2f", m_time);
         ImGui::Text("fps: %.2f", 1.0f / m_last_dt);
         ImGui::Separator();
+        ImGui::SliderFloat3("camera.position", glm::value_ptr(getCamera().m_position), - 10.0f, 10.0f);
+        ImGui::SliderFloat("camera.fov", &(getCamera().m_fov), 10.0f, 120.0f);
+        ImGui::Separator();
         ImGui::SliderInt("massive_level", &m_massive_level, 1, m_max_massive_level);
-        ImGui::SliderFloat3("camera.position", glm::value_ptr(getCamera().position), - 10.0f, 10.0f);
     }
     ImGui::End();
 }

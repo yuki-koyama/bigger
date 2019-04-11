@@ -17,7 +17,7 @@ public:
 
     MeshApp()
     {
-        getCamera().target = glm::vec3(0.0f, 0.3f, 0.0f);
+        getCamera().m_target = glm::vec3(0.0f, 0.3f, 0.0f);
     }
 
     void initialize(int argc, char** argv) override;
@@ -166,7 +166,8 @@ void MeshApp::updateApp()
         ImGui::Text("time: %.2f", m_time);
         ImGui::Text("fps: %.2f", 1.0f / m_last_dt);
         ImGui::Separator();
-        ImGui::SliderFloat3("camera.position", glm::value_ptr(getCamera().position), - 10.0f, 10.0f);
+        ImGui::SliderFloat3("camera.position", glm::value_ptr(getCamera().m_position), - 10.0f, 10.0f);
+        ImGui::SliderFloat("camera.fov", &(getCamera().m_fov), 10.0f, 120.0f);
     }
     ImGui::End();
 }
