@@ -1,4 +1,5 @@
 #include <bigger/app.hpp>
+#include <bigger/material.hpp>
 #include <bigger/scene-object.hpp>
 #include <stdexcept>
 #include <rand-util.hpp>
@@ -50,6 +51,7 @@ void bigger::App::update(float dt)
     {
         if (key_value.second->m_is_active && key_value.second->m_is_visible)
         {
+            key_value.second->m_material->submitUniforms();
             key_value.second->draw();
         }
     }

@@ -1,3 +1,4 @@
+#include <array>
 #include <cmath>
 #include <memory>
 #include <bigger/app.hpp>
@@ -16,7 +17,7 @@ public:
 
     MeshApp()
     {
-        getCamera().target = glm::vec3(0.0f, 0.3f, 0.0f);
+        getCamera().m_target = glm::vec3(0.0f, 0.3f, 0.0f);
     }
 
     void initialize(int argc, char** argv) override;
@@ -35,7 +36,46 @@ private:
 class MeshMaterial final : public bigger::Material
 {
 public:
-    MeshMaterial() : bigger::Material("blinnphong") {}
+
+    MeshMaterial() : bigger::Material("blinnphong")
+    {
+        m_handle = bgfx::createUniform("u_params", bgfx::UniformType::Vec4, 3);
+    }
+
+    ~MeshMaterial()
+    {
+        bgfx::destroy(m_handle);
+    }
+
+    void submitUniforms() override
+    {
+        constexpr float dummy = 0.0f;
+
+        const std::array<glm::vec4, 3> buffer =
+        {{
+            { u_diffuse, dummy },
+            { u_specular, dummy },
+            { u_ambient, u_shininess },
+        }};
+        bgfx::setUniform(m_handle, buffer.data(), 3);
+    }
+
+    void drawImgui() override
+    {
+        ImGui::SliderFloat3("diffuse", glm::value_ptr(u_diffuse), 0.0f, 1.0f);
+        ImGui::SliderFloat3("specular", glm::value_ptr(u_specular), 0.0f, 1.0f);
+        ImGui::SliderFloat3("ambient", glm::value_ptr(u_ambient), 0.0f, 1.0f);
+        ImGui::SliderFloat("shininess", &u_shininess, 0.1f, 256.0f);
+    }
+
+    glm::vec3 u_diffuse = glm::vec3(0.5f, 0.4f, 0.6f);
+    glm::vec3 u_specular = glm::vec3(1.0f, 1.0f, 1.0f);
+    glm::vec3 u_ambient = glm::vec3(0.0f, 0.0f, 0.0f);
+    float u_shininess = 128.0f;
+
+private:
+
+    bgfx::UniformHandle m_handle;
 };
 
 class MeshObject final : public bigger::SceneObject
@@ -64,11 +104,6 @@ public:
         m_primitive = mesh;
     }
 
-    ~MeshObject()
-    {
-        m_primitive = nullptr;
-    }
-
     void update() override
     {
         // Update transform
@@ -89,7 +124,6 @@ private:
     const MeshApp* m_app;
 
     // Assigned resources
-    std::shared_ptr<MeshMaterial> m_material;
     std::shared_ptr<bigger::MeshPrimitive> m_primitive;
 };
 
@@ -126,7 +160,10 @@ void MeshApp::updateApp()
         ImGui::Text("time: %.2f", m_time);
         ImGui::Text("fps: %.2f", 1.0f / m_last_dt);
         ImGui::Separator();
-        ImGui::SliderFloat3("camera.position", glm::value_ptr(getCamera().position), - 10.0f, 10.0f);
+        ImGui::SliderFloat3("camera.position", glm::value_ptr(getCamera().m_position), - 10.0f, 10.0f);
+        ImGui::SliderFloat("camera.fov", &(getCamera().m_fov), 10.0f, 120.0f);
+        ImGui::Separator();
+        m_mesh_material->drawImgui();
     }
     ImGui::End();
 }

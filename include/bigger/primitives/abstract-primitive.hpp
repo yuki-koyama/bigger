@@ -28,10 +28,7 @@ namespace bigger
     {
     public:
 
-        AbstractPrimitive()
-        : m_is_initialized(false)
-        {
-        }
+        AbstractPrimitive() : m_is_initialized(false) {}
 
         void initializePrimitive()
         {

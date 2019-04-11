@@ -17,9 +17,9 @@ namespace bigger
 
         App() : bigg::Application("", 1280, 720)
         {
-            m_camera.position = { 1.0f, 1.0f, - 2.0f };
-            m_camera.target   = { 0.0f, 0.0f, 0.0f };
-            m_camera.up       = { 0.0f, 1.0f, 0.0f };
+            m_camera.m_position = { 1.0f, 1.0f, - 2.0f };
+            m_camera.m_target = { 0.0f, 0.0f, 0.0f };
+            m_camera.m_up = { 0.0f, 1.0f, 0.0f };
 
             m_time = 0.0f;
         }
@@ -40,7 +40,7 @@ namespace bigger
         void setViewProj()
         {
             const glm::mat4 view_matrix = m_camera.getViewMatrix();
-            const glm::mat4 proj_matrix = glm::perspective(glm::radians(60.0f), getAspect(), 0.1f, 100.0f);
+            const glm::mat4 proj_matrix = glm::perspective(glm::radians(m_camera.m_fov), getAspect(), m_camera.m_near_clip, m_camera.m_far_clip);
 
             bgfx::setViewTransform(0, glm::value_ptr(view_matrix), glm::value_ptr(proj_matrix));
         }

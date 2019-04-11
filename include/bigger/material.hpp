@@ -10,6 +10,7 @@ namespace bigger
     class Material
     {
     public:
+        
         Material(const std::string& shader_name)
         {
             const std::string shader_dir_path = getShaderDirectoryPath(bgfx::getRendererType());
@@ -23,6 +24,9 @@ namespace bigger
         {
             bgfx::destroy(m_program);
         }
+
+        virtual void submitUniforms() {}
+        virtual void drawImgui() {}
 
         bgfx::ProgramHandle m_program;
     };

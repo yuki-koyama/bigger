@@ -1,4 +1,4 @@
-#include <cmath>
+#include <array>
 #include <memory>
 #include <bigger/app.hpp>
 #include <bigger/material.hpp>
@@ -25,7 +25,7 @@ public:
     // State variables
     int m_massive_level;
 
-    // Const variables
+    // Const values
     const int m_max_massive_level = 8;
 
 private:
@@ -38,7 +38,46 @@ private:
 class CubeMaterial final : public bigger::Material
 {
 public:
-    CubeMaterial() : bigger::Material("blinnphong") {}
+
+    CubeMaterial() : bigger::Material("blinnphong")
+    {
+        m_handle = bgfx::createUniform("u_params", bgfx::UniformType::Vec4, 3);
+    }
+
+    ~CubeMaterial()
+    {
+        bgfx::destroy(m_handle);
+    }
+
+    void submitUniforms() override
+    {
+        constexpr float dummy = 0.0f;
+
+        const std::array<glm::vec4, 3> buffer =
+        {{
+            { u_diffuse, dummy },
+            { u_specular, dummy },
+            { u_ambient, u_shininess },
+        }};
+        bgfx::setUniform(m_handle, buffer.data(), 3);
+    }
+
+    void drawImgui() override
+    {
+        ImGui::SliderFloat3("diffuse", glm::value_ptr(u_diffuse), 0.0f, 1.0f);
+        ImGui::SliderFloat3("specular", glm::value_ptr(u_specular), 0.0f, 1.0f);
+        ImGui::SliderFloat3("ambient", glm::value_ptr(u_ambient), 0.0f, 1.0f);
+        ImGui::SliderFloat("shininess", &u_shininess, 0.1f, 256.0f);
+    }
+
+    glm::vec3 u_diffuse = glm::vec3(0.5f, 0.4f, 0.6f);
+    glm::vec3 u_specular = glm::vec3(1.0f, 1.0f, 1.0f);
+    glm::vec3 u_ambient = glm::vec3(0.0f, 0.0f, 0.0f);
+    float u_shininess = 128.0f;
+
+private:
+
+    bgfx::UniformHandle m_handle;
 };
 
 class CubeObject final : public bigger::SceneObject
@@ -74,11 +113,6 @@ public:
         }
     }
 
-    ~CubeObject()
-    {
-        m_cube = nullptr;
-    }
-
     void update() override
     {
         // Update transform
@@ -105,12 +139,13 @@ private:
     const CubesApp* m_app;
 
     // Assigned resources
-    std::shared_ptr<CubeMaterial> m_material;
     std::shared_ptr<bigger::CubePrimitive> m_cube;
 };
 
 CubesApp::CubesApp()
 {
+    getCamera().m_position = glm::vec3(0.0f, 0.0f, - 5.0f);
+
     m_massive_level = 2;
 }
 
@@ -154,8 +189,12 @@ void CubesApp::updateApp()
         ImGui::Text("time: %.2f", m_time);
         ImGui::Text("fps: %.2f", 1.0f / m_last_dt);
         ImGui::Separator();
+        ImGui::SliderFloat3("camera.position", glm::value_ptr(getCamera().m_position), - 10.0f, 10.0f);
+        ImGui::SliderFloat("camera.fov", &(getCamera().m_fov), 10.0f, 120.0f);
+        ImGui::Separator();
+        m_cube_material->drawImgui();
+        ImGui::Separator();
         ImGui::SliderInt("massive_level", &m_massive_level, 1, m_max_massive_level);
-        ImGui::SliderFloat3("camera.position", glm::value_ptr(getCamera().position), - 10.0f, 10.0f);
     }
     ImGui::End();
 }

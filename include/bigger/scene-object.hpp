@@ -1,10 +1,13 @@
 #ifndef scene_object_hpp
 #define scene_object_hpp
 
+#include <memory>
 #include <glm/glm.hpp>
 
 namespace bigger
 {
+    class Material;
+
     class SceneObject
     {
     public:
@@ -23,6 +26,8 @@ namespace bigger
 
         bool m_is_active = true;
         bool m_is_visible = true;
+
+        std::shared_ptr<Material> m_material;
     };
 }
 

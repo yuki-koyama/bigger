@@ -16,14 +16,16 @@ struct Material
     float shininess;
 };
 
+uniform vec4 u_params[3];
+#define u_diffuse   u_params[0].xyz
+#define u_dummy_0   u_params[0].w
+#define u_specular  u_params[1].xyz
+#define u_dummy_1   u_params[1].w
+#define u_ambient   u_params[2].xyz
+#define u_shininess u_params[2].w
+
 const DirLight main_light = DirLight(vec3(+ 1.0, 0.0, + 2.0), vec3(1.0, 0.9, 0.9));
 const DirLight sub_light = DirLight(vec3(- 1.0, 0.0, - 1.0), vec3(0.2, 0.2, 0.5));
-const Material material = Material(
-    vec3(0.50, 0.50, 0.50),
-    vec3(1.00, 1.00, 1.00),
-    vec3(0.03, 0.03, 0.03),
-    128.0
-);
 const float gamma = 2.2;
 
 vec3 calculateLambertDiffuse(vec3 normal, vec3 light_dir, vec3 diffuse_color)
@@ -45,20 +47,28 @@ vec3 calculateSingleLightShading(DirLight dir_light, Material material, vec3 nor
 
     vec3 diffuse = dir_light.intensity * calculateLambertDiffuse(normal, light_dir, material.diffuse);
     vec3 specular = dir_light.intensity * calculateBlinnSpecular(normal, view_dir, light_dir, material.specular, material.shininess);
-    vec3 ambient = material.ambient;
 
-    return ambient + diffuse + specular;
+    return diffuse + specular;
 }
 
 void main()
 {
     vec3 linear_color = vec3(0.0, 0.0, 0.0);
 
+    Material material = Material(
+        u_diffuse,
+        u_specular,
+        u_ambient,
+        u_shininess
+    );
+
     vec3 normal = normalize(v_normal);
     vec3 view_dir = normalize(- v_view);
 
     linear_color += calculateSingleLightShading(main_light, material, normal, view_dir);
     linear_color += calculateSingleLightShading(sub_light, material, normal, view_dir);
+
+    linear_color += material.ambient;
 
     vec3 corrected_color = pow(linear_color, vec3_splat(1.0 / gamma));
 
