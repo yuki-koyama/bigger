@@ -25,6 +25,8 @@ namespace bigger
             bgfx::destroy(m_program);
         }
 
+        virtual void submitUniforms() {}
+
         bgfx::ProgramHandle m_program;
     };
 }
