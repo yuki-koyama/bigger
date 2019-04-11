@@ -87,30 +87,17 @@ public:
     CubeObject(const CubesApp* app,
                const int x,
                const int y,
-               std::shared_ptr<CubeMaterial> material = nullptr,
-               std::shared_ptr<bigger::CubePrimitive> cube = nullptr) :
+               std::shared_ptr<CubeMaterial> material,
+               std::shared_ptr<bigger::CubePrimitive> cube) :
+    bigger::SceneObject(material),
     m_x(x),
     m_y(y),
-    m_app(app)
+    m_app(app),
+    m_cube(cube)
     {
-        if (material == nullptr)
-        {
-            m_material = std::make_shared<CubeMaterial>();
-        }
-        else
-        {
-            m_material = material;
-        }
-
-        if (cube == nullptr)
-        {
-            m_cube = std::make_shared<bigger::CubePrimitive>();
-            m_cube->initializePrimitive();
-        }
-        else
-        {
-            m_cube = cube;
-        }
+        assert(app != nullptr);
+        assert(material != nullptr);
+        assert(cube != nullptr);
     }
 
     void update() override

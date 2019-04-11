@@ -83,25 +83,15 @@ class MeshObject final : public bigger::SceneObject
 public:
 
     MeshObject(const MeshApp* app,
-               std::shared_ptr<MeshMaterial> material = nullptr,
-               std::shared_ptr<bigger::MeshPrimitive> mesh = nullptr) :
-    m_app(app)
+               std::shared_ptr<MeshMaterial> material,
+               std::shared_ptr<bigger::MeshPrimitive> mesh) :
+    bigger::SceneObject(material),
+    m_app(app),
+    m_primitive(mesh)
     {
-        if (material == nullptr)
-        {
-            m_material = std::make_shared<MeshMaterial>();
-        }
-        else
-        {
-            m_material = material;
-        }
-
-        if (mesh == nullptr)
-        {
-            throw std::runtime_error("");
-        }
-
-        m_primitive = mesh;
+        assert(app != nullptr);
+        assert(material != nullptr);
+        assert(mesh != nullptr);
     }
 
     void update() override

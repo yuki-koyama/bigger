@@ -12,6 +12,8 @@ namespace bigger
     {
     public:
 
+        SceneObject(std::shared_ptr<Material> material = nullptr) : m_material(material) {}
+
         virtual void update() {}
         virtual void draw(const glm::mat4& parent_transform_matrix = glm::mat4(1.0f)) {}
 
