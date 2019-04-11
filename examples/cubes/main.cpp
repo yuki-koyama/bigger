@@ -25,7 +25,7 @@ public:
     // State variables
     int m_massive_level;
 
-    // Const variables
+    // Const values
     const int m_max_massive_level = 8;
 
 private:
@@ -69,7 +69,7 @@ public:
         ImGui::SliderFloat3("ambient", glm::value_ptr(u_ambient), 0.0f, 1.0f);
         ImGui::SliderFloat("shininess", &u_shininess, 0.1f, 256.0f);
     }
-    
+
     glm::vec3 u_diffuse = glm::vec3(0.5f, 0.4f, 0.6f);
     glm::vec3 u_specular = glm::vec3(1.0f, 1.0f, 1.0f);
     glm::vec3 u_ambient = glm::vec3(0.0f, 0.0f, 0.0f);
