@@ -1,11 +1,11 @@
 #ifndef sphere_hpp
 #define sphere_hpp
 
-#include <bigger/primitives/abstract-primitive.hpp>
+#include <bigger/primitive.hpp>
 
 namespace bigger
 {
-    class SpherePrimitive : public AbstractPrimitive
+    class SpherePrimitive : public Primitive
     {
     public:
 

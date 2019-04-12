@@ -1,11 +1,11 @@
 #ifndef cube_primitive_hpp
 #define cube_primitive_hpp
 
-#include <bigger/primitives/abstract-primitive.hpp>
+#include <bigger/primitive.hpp>
 
 namespace bigger
 {
-    class CubePrimitive : public AbstractPrimitive
+    class CubePrimitive : public Primitive
     {
     public:
 

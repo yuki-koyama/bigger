@@ -1,5 +1,5 @@
-#ifndef abstract_primitive_hpp
-#define abstract_primitive_hpp
+#ifndef primitive_hpp
+#define primitive_hpp
 
 #include <cassert>
 #include <vector>
@@ -24,11 +24,11 @@ namespace bigger
         }
     };
 
-    class AbstractPrimitive
+    class Primitive
     {
     public:
 
-        AbstractPrimitive() : m_is_initialized(false) {}
+        Primitive() : m_is_initialized(false) {}
 
         void initializePrimitive()
         {
@@ -74,4 +74,4 @@ namespace bigger
     };
 }
 
-#endif /* abstract_primitive_hpp */
+#endif /* primitive_hpp */

@@ -2,11 +2,11 @@
 #define mesh_primitive_h
 
 #include <string>
-#include <bigger/primitives/abstract-primitive.hpp>
+#include <bigger/primitive.hpp>
 
 namespace bigger
 {
-    class MeshPrimitive : public AbstractPrimitive
+    class MeshPrimitive : public Primitive
     {
     public:
         
