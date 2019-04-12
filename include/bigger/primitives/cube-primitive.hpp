@@ -1,5 +1,5 @@
-#ifndef cube_hpp
-#define cube_hpp
+#ifndef cube_primitive_hpp
+#define cube_primitive_hpp
 
 #include <bigger/primitives/abstract-primitive.hpp>
 
@@ -75,4 +75,4 @@ namespace bigger
     };
 }
 
-#endif /* cube_hpp */
+#endif /* cube_primitive_hpp */
