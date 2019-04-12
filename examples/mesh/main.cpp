@@ -59,6 +59,8 @@ public:
     {
         const glm::mat4 transform_matrix = parent_transform_matrix * getTransform();
         bgfx::setTransform(glm::value_ptr(transform_matrix));
+
+        m_material->submitUniforms();
         m_primitive->submitPrimitive(m_material->m_program);
     }
 
