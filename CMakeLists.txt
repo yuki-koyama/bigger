@@ -57,17 +57,19 @@ add_library(bigger STATIC ${headers} ${sources} ${shaders})
 target_link_libraries(bigger PUBLIC bigg rand-util tinyobjloader)
 target_include_directories(bigger PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-add_shader(${CMAKE_CURRENT_SOURCE_DIR}/shaders/blinnphong/vs_blinnphong.sc VERTEX   OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/shaders DX11_MODEL 5_0 GLSL 130)
-add_shader(${CMAKE_CURRENT_SOURCE_DIR}/shaders/blinnphong/fs_blinnphong.sc FRAGMENT OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/shaders DX11_MODEL 5_0 GLSL 130)
+set(BIGGER_SHADER_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/shaders CACHE STRING "")
+
+add_shader(${CMAKE_CURRENT_SOURCE_DIR}/shaders/blinnphong/vs_blinnphong.sc VERTEX   OUTPUT ${BIGGER_SHADER_OUTPUT_DIR} DX11_MODEL 5_0 GLSL 130)
+add_shader(${CMAKE_CURRENT_SOURCE_DIR}/shaders/blinnphong/fs_blinnphong.sc FRAGMENT OUTPUT ${BIGGER_SHADER_OUTPUT_DIR} DX11_MODEL 5_0 GLSL 130)
 
 option(BIGGER_EXAMPLES ON "")
 if(BIGGER_EXAMPLES)
   add_executable(cubes ${CMAKE_CURRENT_SOURCE_DIR}/examples/cubes/main.cpp)
   target_link_libraries(cubes bigger)
-  add_custom_command(TARGET cubes POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_BINARY_DIR}/shaders $<TARGET_FILE_DIR:cubes>/shaders)
+  add_custom_command(TARGET cubes POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory ${BIGGER_SHADER_OUTPUT_DIR} $<TARGET_FILE_DIR:cubes>/shaders)
 
   add_executable(mesh ${CMAKE_CURRENT_SOURCE_DIR}/examples/mesh/main.cpp)
   target_link_libraries(mesh bigger)
-  add_custom_command(TARGET mesh POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_BINARY_DIR}/shaders $<TARGET_FILE_DIR:mesh>/shaders)
+  add_custom_command(TARGET mesh POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory ${BIGGER_SHADER_OUTPUT_DIR} $<TARGET_FILE_DIR:mesh>/shaders)
   add_custom_command(TARGET mesh POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/models $<TARGET_FILE_DIR:mesh>/models)
 endif()
