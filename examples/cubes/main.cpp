@@ -1,13 +1,12 @@
 #include <array>
 #include <memory>
 #include <bigger/app.hpp>
-#include <bigger/material.hpp>
 #include <bigger/scene-object.hpp>
+#include <bigger/materials/blinnphong-material.hpp>
 #include <bigger/primitives/cube-primitive.hpp>
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
 
-class CubeMaterial;
 class CubeObject;
 
 class CubesApp final : public bigger::App
@@ -31,53 +30,8 @@ public:
 private:
 
     // Shared resources
-    std::shared_ptr<CubeMaterial> m_cube_material;
+    std::shared_ptr<bigger::BlinnPhongMaterial> m_cube_material;
     std::shared_ptr<bigger::CubePrimitive> m_cube_primitive;
-};
-
-class CubeMaterial final : public bigger::Material
-{
-public:
-
-    CubeMaterial() : bigger::Material("blinnphong")
-    {
-        m_handle = bgfx::createUniform("u_params", bgfx::UniformType::Vec4, 3);
-    }
-
-    ~CubeMaterial()
-    {
-        bgfx::destroy(m_handle);
-    }
-
-    void submitUniforms() override
-    {
-        constexpr float dummy = 0.0f;
-
-        const std::array<glm::vec4, 3> buffer =
-        {{
-            { u_diffuse, dummy },
-            { u_specular, dummy },
-            { u_ambient, u_shininess },
-        }};
-        bgfx::setUniform(m_handle, buffer.data(), 3);
-    }
-
-    void drawImgui() override
-    {
-        ImGui::SliderFloat3("diffuse", glm::value_ptr(u_diffuse), 0.0f, 1.0f);
-        ImGui::SliderFloat3("specular", glm::value_ptr(u_specular), 0.0f, 1.0f);
-        ImGui::SliderFloat3("ambient", glm::value_ptr(u_ambient), 0.0f, 1.0f);
-        ImGui::SliderFloat("shininess", &u_shininess, 0.1f, 256.0f);
-    }
-
-    glm::vec3 u_diffuse = glm::vec3(0.5f, 0.4f, 0.6f);
-    glm::vec3 u_specular = glm::vec3(1.0f, 1.0f, 1.0f);
-    glm::vec3 u_ambient = glm::vec3(0.0f, 0.0f, 0.0f);
-    float u_shininess = 128.0f;
-
-private:
-
-    bgfx::UniformHandle m_handle;
 };
 
 class CubeObject final : public bigger::SceneObject
@@ -87,7 +41,7 @@ public:
     CubeObject(const CubesApp* app,
                const int x,
                const int y,
-               std::shared_ptr<CubeMaterial> material,
+               std::shared_ptr<bigger::BlinnPhongMaterial> material,
                std::shared_ptr<bigger::CubePrimitive> cube) :
     bigger::SceneObject(material),
     m_x(x),
@@ -142,7 +96,7 @@ void CubesApp::initialize(int argc, char** argv)
     reset(BGFX_RESET_VSYNC | BGFX_RESET_MSAA_X8);
 
     // Instantiate shared resources
-    m_cube_material = std::make_shared<CubeMaterial>();
+    m_cube_material = std::make_shared<bigger::BlinnPhongMaterial>();
     m_cube_primitive = std::make_shared<bigger::CubePrimitive>();
     m_cube_primitive->initializePrimitive();
 

@@ -2,13 +2,12 @@
 #include <cmath>
 #include <memory>
 #include <bigger/app.hpp>
-#include <bigger/material.hpp>
 #include <bigger/scene-object.hpp>
+#include <bigger/materials/blinnphong-material.hpp>
 #include <bigger/primitives/mesh-primitive.hpp>
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
 
-class MeshMaterial;
 class MeshObject;
 
 class MeshApp final : public bigger::App
@@ -29,53 +28,8 @@ public:
 private:
 
     // Shared resources
-    std::shared_ptr<MeshMaterial> m_mesh_material;
+    std::shared_ptr<bigger::BlinnPhongMaterial> m_mesh_material;
     std::shared_ptr<bigger::MeshPrimitive> m_mesh_primitive;
-};
-
-class MeshMaterial final : public bigger::Material
-{
-public:
-
-    MeshMaterial() : bigger::Material("blinnphong")
-    {
-        m_handle = bgfx::createUniform("u_params", bgfx::UniformType::Vec4, 3);
-    }
-
-    ~MeshMaterial()
-    {
-        bgfx::destroy(m_handle);
-    }
-
-    void submitUniforms() override
-    {
-        constexpr float dummy = 0.0f;
-
-        const std::array<glm::vec4, 3> buffer =
-        {{
-            { u_diffuse, dummy },
-            { u_specular, dummy },
-            { u_ambient, u_shininess },
-        }};
-        bgfx::setUniform(m_handle, buffer.data(), 3);
-    }
-
-    void drawImgui() override
-    {
-        ImGui::SliderFloat3("diffuse", glm::value_ptr(u_diffuse), 0.0f, 1.0f);
-        ImGui::SliderFloat3("specular", glm::value_ptr(u_specular), 0.0f, 1.0f);
-        ImGui::SliderFloat3("ambient", glm::value_ptr(u_ambient), 0.0f, 1.0f);
-        ImGui::SliderFloat("shininess", &u_shininess, 0.1f, 256.0f);
-    }
-
-    glm::vec3 u_diffuse = glm::vec3(0.5f, 0.4f, 0.6f);
-    glm::vec3 u_specular = glm::vec3(1.0f, 1.0f, 1.0f);
-    glm::vec3 u_ambient = glm::vec3(0.0f, 0.0f, 0.0f);
-    float u_shininess = 128.0f;
-
-private:
-
-    bgfx::UniformHandle m_handle;
 };
 
 class MeshObject final : public bigger::SceneObject
@@ -83,7 +37,7 @@ class MeshObject final : public bigger::SceneObject
 public:
 
     MeshObject(const MeshApp* app,
-               std::shared_ptr<MeshMaterial> material,
+               std::shared_ptr<bigger::BlinnPhongMaterial> material,
                std::shared_ptr<bigger::MeshPrimitive> mesh) :
     bigger::SceneObject(material),
     m_app(app),
@@ -123,7 +77,7 @@ void MeshApp::initialize(int argc, char** argv)
     reset(BGFX_RESET_VSYNC | BGFX_RESET_MSAA_X8);
 
     // Instantiate shared resources
-    m_mesh_material = std::make_shared<MeshMaterial>();
+    m_mesh_material = std::make_shared<bigger::BlinnPhongMaterial>();
 
     const std::string obj_path = "models/teapot.obj";
     m_mesh_primitive = std::make_shared<bigger::MeshPrimitive>(obj_path);
