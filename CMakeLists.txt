@@ -41,6 +41,7 @@ set(headers
   ${CMAKE_CURRENT_SOURCE_DIR}/include/bigger/materials/blinnphong-material.hpp
   ${CMAKE_CURRENT_SOURCE_DIR}/include/bigger/primitives/cube-primitive.hpp
   ${CMAKE_CURRENT_SOURCE_DIR}/include/bigger/primitives/mesh-primitive.hpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/include/bigger/primitives/plane-primitive.hpp
   ${CMAKE_CURRENT_SOURCE_DIR}/include/bigger/primitives/sphere-primitive.hpp
 )
 set(sources
