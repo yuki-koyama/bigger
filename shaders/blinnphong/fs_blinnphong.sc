@@ -16,16 +16,16 @@ struct Material
     float shininess;
 };
 
-uniform vec4 u_params[3];
-#define u_diffuse   u_params[0].xyz
-#define u_dummy_0   u_params[0].w
-#define u_specular  u_params[1].xyz
-#define u_dummy_1   u_params[1].w
-#define u_ambient   u_params[2].xyz
-#define u_shininess u_params[2].w
+uniform vec4 u_params[7];
+#define u_diffuse           u_params[0].xyz
+#define u_specular          u_params[1].xyz
+#define u_ambient           u_params[2].xyz
+#define u_shininess         u_params[2].w
+#define u_dir_light_0_dir   u_params[3].xyz
+#define u_dir_light_0_color u_params[4].xyz
+#define u_dir_light_1_dir   u_params[5].xyz
+#define u_dir_light_1_color u_params[6].xyz
 
-const DirLight main_light = DirLight(vec3(+ 1.0, 0.0, + 2.0), vec3(1.0, 0.9, 0.9));
-const DirLight sub_light = DirLight(vec3(- 1.0, 0.0, - 1.0), vec3(0.2, 0.2, 0.5));
 const float gamma = 2.2;
 
 vec3 calculateLambertDiffuse(vec3 normal, vec3 light_dir, vec3 diffuse_color)
@@ -65,8 +65,8 @@ void main()
     vec3 normal = normalize(v_normal);
     vec3 view_dir = normalize(- v_view);
 
-    linear_color += calculateSingleLightShading(main_light, material, normal, view_dir);
-    linear_color += calculateSingleLightShading(sub_light, material, normal, view_dir);
+    linear_color += calculateSingleLightShading(DirLight(u_dir_light_0_dir, u_dir_light_0_color), material, normal, view_dir);
+    linear_color += calculateSingleLightShading(DirLight(u_dir_light_1_dir, u_dir_light_1_color), material, normal, view_dir);
 
     linear_color += material.ambient;
 
