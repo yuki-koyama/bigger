@@ -13,7 +13,7 @@ bigger::MeshPrimitive::MeshPrimitive(const std::string& obj_path)
 
     std::string warn;
     std::string err;
-    bool return_value = tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, obj_path.c_str());
+    const bool return_value = tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, obj_path.c_str());
 
     if (!warn.empty()) { std::cerr << warn << std::endl; }
     if (!err.empty()) { std::cerr << err << std::endl; }
