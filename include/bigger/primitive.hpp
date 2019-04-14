@@ -44,12 +44,14 @@ namespace bigger
 
         void submitPrimitive(bgfx::ProgramHandle program) const
         {
+            constexpr bool preserve_state = false;
+
             assert(m_is_initialized);
 
             bgfx::setVertexBuffer(0, m_vertex_buffer_handle);
             bgfx::setIndexBuffer(m_index_buffer_handle);
 
-            bgfx::submit(0, program);
+            bgfx::submit(0, program, bgfx::ViewMode::Default, preserve_state);
         }
 
         void destroyPrimitive()
