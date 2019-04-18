@@ -42,10 +42,8 @@ namespace bigger
             m_is_initialized = true;
         }
 
-        void submitPrimitive(bgfx::ProgramHandle program) const
+        void submitPrimitive(bgfx::ProgramHandle program, bool preserve_state = false) const
         {
-            constexpr bool preserve_state = false;
-
             assert(m_is_initialized);
 
             bgfx::setVertexBuffer(0, m_vertex_buffer_handle);
