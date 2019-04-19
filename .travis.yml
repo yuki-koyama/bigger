@@ -11,7 +11,7 @@ addons:
   apt:
     packages:
     - cmake
-    - libeigen-dev
+    - libeigen3-dev
   homebrew:
     packages:
     - cmake
