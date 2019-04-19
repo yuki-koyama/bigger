@@ -1,8 +1,15 @@
 #include <bigger/app.hpp>
 #include <bigger/material.hpp>
 #include <bigger/scene-object.hpp>
+#include <bigger/screen-shot-callback.hpp>
 #include <stdexcept>
 #include <rand-util.hpp>
+
+int bigger::App::runApp(int argc, char** argv, bgfx::RendererType::Enum type)
+{
+    static ScreenShotCallback callback;
+    return run(argc, argv, type, BGFX_PCI_ID_NONE, 0, &callback);
+}
 
 void bigger::App::addSceneObject(std::shared_ptr<SceneObject> scene_object, const std::string& name)
 {

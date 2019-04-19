@@ -26,6 +26,10 @@ namespace bigger
             m_frame = 0;
         }
 
+        int runApp(int argc,
+                   char** argv,
+                   bgfx::RendererType::Enum type = bgfx::RendererType::Count);
+
         // Events to be overridden
         virtual void updateApp() = 0;
         virtual void releaseSharedResources() = 0;

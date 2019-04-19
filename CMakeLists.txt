@@ -39,6 +39,7 @@ set(headers
   ${CMAKE_CURRENT_SOURCE_DIR}/include/bigger/material.hpp
   ${CMAKE_CURRENT_SOURCE_DIR}/include/bigger/primitive.hpp
   ${CMAKE_CURRENT_SOURCE_DIR}/include/bigger/scene-object.hpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/include/bigger/screen-shot-callback.hpp
   ${CMAKE_CURRENT_SOURCE_DIR}/include/bigger/utils.hpp
   ${CMAKE_CURRENT_SOURCE_DIR}/include/bigger/materials/blinnphong-material.hpp
   ${CMAKE_CURRENT_SOURCE_DIR}/include/bigger/primitives/cube-primitive.hpp
