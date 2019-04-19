@@ -66,10 +66,10 @@ namespace bigger
         float u_shininess = 128.0f;
 
         std::array<DirLight, 2> u_dir_lights =
-        {
+        {{
             DirLight{ { + 0.5, + 0.5, + 1.0 }, { 1.0, 0.9, 0.9 } },
             DirLight{ { - 1.0, + 0.0, + 0.0 }, { 0.2, 0.2, 0.5 } },
-        };
+        }};
 
     private:
 
