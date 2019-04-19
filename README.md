@@ -6,6 +6,8 @@ bigg (bgfx + imgui + glfw + glm) + utils
 
 This library, named `bigger`, is a prototype-oriented middleware library for 3D interactive applications. Based on a library named `bigg`, which stands for `bgfx` + `imgui` + `glfw` + `glm`, this library adds some higher-level utilities (such as renderable primitive classes) to make the prototyping of lightweight and cross-platform apps even easier.
 
+![](./docs/screen_shot.png)
+
 ## Languages
 
 - C++17
@@ -22,5 +24,9 @@ This library, named `bigger`, is a prototype-oriented middleware library for 3D 
   - GLFW <https://github.com/glfw/glfw> [Zlib]
   - GLM <https://github.com/g-truc/glm> [MIT]
 - random-util <https://github.com/yuki-koyama/rand-util> [MIT]
+- string-util <https://github.com/yuki-koyama/string-util> [MIT]
 - tinyobjloader <https://github.com/syoyo/tinyobjloader> [MIT]
-- Standard Template Library (C++17)
+
+## License
+
+MIT License
