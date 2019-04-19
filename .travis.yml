@@ -12,6 +12,8 @@ addons:
     packages:
     - cmake
     - libeigen3-dev
+    - xorg-dev
+    - libglu1-mesa-dev
   homebrew:
     packages:
     - cmake
