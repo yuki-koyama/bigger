@@ -7,3 +7,6 @@
 [submodule "external/rand-util"]
 	path = external/rand-util
 	url = https://github.com/yuki-koyama/rand-util.git
+[submodule "external/string-util"]
+	path = external/string-util
+	url = https://github.com/yuki-koyama/string-util.git

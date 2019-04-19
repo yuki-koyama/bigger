@@ -26,6 +26,8 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/bigg)
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/rand-util)
 
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/string-util)
+
 set(TINYOBJLOADER_BUILD_OBJ_STICHER OFF CACHE INTERNAL "" FORCE)
 set(TINYOBJLOADER_BUILD_TEST_LOADER OFF CACHE INTERNAL "" FORCE)
 set(TINYOBJLOADER_USE_DOUBLE        OFF CACHE INTERNAL "" FORCE)
@@ -56,7 +58,7 @@ set(shaders
 )
 
 add_library(bigger STATIC ${headers} ${sources} ${shaders})
-target_link_libraries(bigger PUBLIC bigg rand-util tinyobjloader)
+target_link_libraries(bigger PUBLIC bigg rand-util string-util tinyobjloader)
 target_include_directories(bigger PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 set(BIGGER_SHADER_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/shaders CACHE STRING "")
