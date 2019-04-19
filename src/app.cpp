@@ -28,6 +28,7 @@ void bigger::App::update(float dt)
     // Update state variables
     m_last_dt = dt;
     m_time += dt;
+    ++ m_frame;
 
     // Call the application-specific update method
     updateApp();

@@ -22,6 +22,7 @@ namespace bigger
             m_camera.m_up = { 0.0f, 1.0f, 0.0f };
 
             m_time = 0.0f;
+            m_frame = 0;
         }
 
         // Events to be overridden
@@ -53,6 +54,7 @@ namespace bigger
         const Camera& getCamera() const { return m_camera; }
         Camera& getCamera() { return m_camera; }
 
+        unsigned int m_frame;
         float m_time;
         float m_last_dt;
         std::unordered_map<std::string, std::shared_ptr<SceneObject>> m_scene_objects;

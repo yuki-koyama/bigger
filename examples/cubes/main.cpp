@@ -129,6 +129,7 @@ void CubesApp::updateApp()
     // Display ImGui components
     ImGui::Begin("Config");
     {
+        ImGui::Text("frame: %d", m_frame);
         ImGui::Text("time: %.2f", m_time);
         ImGui::Text("fps: %.2f", 1.0f / m_last_dt);
         ImGui::Separator();
