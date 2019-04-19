@@ -1,0 +1,21 @@
+language: cpp
+
+matrix:
+  include:
+    - compiler: gcc
+      os: linux
+    - compiler: clang
+      os: osx
+
+addons:
+  apt:
+    packages:
+    - cmake
+    - libeigen-dev
+  homebrew:
+    packages:
+    - cmake
+    - eigen
+
+script:
+  - cmake -DBIGGER_EXAMPLES=ON . && make
