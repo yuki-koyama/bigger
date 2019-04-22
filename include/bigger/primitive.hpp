@@ -30,7 +30,7 @@ namespace bigger
 
         Primitive() : m_is_initialized(false) {}
 
-        void initializePrimitive()
+        virtual void initializePrimitive()
         {
             assert(!m_vertices.empty());
             assert(!m_triangle_list.empty());
@@ -42,7 +42,7 @@ namespace bigger
             m_is_initialized = true;
         }
 
-        void submitPrimitive(bgfx::ProgramHandle program, bool preserve_state = false) const
+        virtual void submitPrimitive(bgfx::ProgramHandle program, bool preserve_state = false) const
         {
             assert(m_is_initialized);
 
@@ -52,7 +52,7 @@ namespace bigger
             bgfx::submit(0, program, bgfx::ViewMode::Default, preserve_state);
         }
 
-        void destroyPrimitive()
+        virtual void destroyPrimitive()
         {
             assert(m_is_initialized);
 
@@ -64,8 +64,6 @@ namespace bigger
 
         std::vector<PositionNormalVertex> m_vertices;
         std::vector<uint16_t> m_triangle_list;
-
-    private:
 
         bool m_is_initialized;
 
