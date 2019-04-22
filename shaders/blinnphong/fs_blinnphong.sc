@@ -62,7 +62,8 @@ void main()
         u_shininess
     );
 
-    vec3 normal = normalize(v_normal);
+    // When the triangle is back-facing, the normal direction will be flipped
+    vec3 normal = v_normal.z < 0.0 ? normalize(- v_normal) : normalize(v_normal);
     vec3 view_dir = normalize(- v_view);
 
     linear_color += calculateSingleLightShading(DirLight(u_dir_light_0_dir, u_dir_light_0_color), material, normal, view_dir);
