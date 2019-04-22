@@ -24,6 +24,8 @@ namespace bigger
                 0, 1, 2,
                 0, 2, 3,
             };
+
+            Primitive::initializePrimitive();
         }
     };
 }

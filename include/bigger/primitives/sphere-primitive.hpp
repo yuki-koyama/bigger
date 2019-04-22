@@ -58,6 +58,8 @@ namespace bigger
             {
                 m_triangle_list[i] = static_cast<uint16_t>(i);
             }
+            
+            Primitive::initializePrimitive();
         }
     };
 }

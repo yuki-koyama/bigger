@@ -41,4 +41,6 @@ bigger::MeshPrimitive::MeshPrimitive(const std::string& obj_path)
             m_triangle_list.push_back(uint16_t(m_triangle_list.size()));
         }
     }
+
+    Primitive::initializePrimitive();
 }

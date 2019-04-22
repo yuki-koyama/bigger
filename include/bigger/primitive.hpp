@@ -29,6 +29,27 @@ namespace bigger
     public:
 
         Primitive() : m_is_initialized(false) {}
+        virtual ~Primitive() { destroyPrimitive(); }
+
+        virtual void submitPrimitive(bgfx::ProgramHandle program, bool preserve_state = false) const
+        {
+            assert(m_is_initialized);
+
+            bgfx::setVertexBuffer(0, m_vertex_buffer_handle);
+            bgfx::setIndexBuffer(m_index_buffer_handle);
+
+            bgfx::submit(0, program, bgfx::ViewMode::Default, preserve_state);
+        }
+
+    protected:
+
+        std::vector<PositionNormalVertex> m_vertices;
+        std::vector<uint16_t> m_triangle_list;
+
+        bool m_is_initialized;
+
+        bgfx::VertexBufferHandle m_vertex_buffer_handle;
+        bgfx::IndexBufferHandle m_index_buffer_handle;
 
         virtual void initializePrimitive()
         {
@@ -42,15 +63,7 @@ namespace bigger
             m_is_initialized = true;
         }
 
-        virtual void submitPrimitive(bgfx::ProgramHandle program, bool preserve_state = false) const
-        {
-            assert(m_is_initialized);
-
-            bgfx::setVertexBuffer(0, m_vertex_buffer_handle);
-            bgfx::setIndexBuffer(m_index_buffer_handle);
-
-            bgfx::submit(0, program, bgfx::ViewMode::Default, preserve_state);
-        }
+    private:
 
         virtual void destroyPrimitive()
         {
@@ -59,16 +72,6 @@ namespace bigger
             bgfx::destroy(m_vertex_buffer_handle);
             bgfx::destroy(m_index_buffer_handle);
         }
-
-    protected:
-
-        std::vector<PositionNormalVertex> m_vertices;
-        std::vector<uint16_t> m_triangle_list;
-
-        bool m_is_initialized;
-
-        bgfx::VertexBufferHandle m_vertex_buffer_handle;
-        bgfx::IndexBufferHandle m_index_buffer_handle;
     };
 }
 

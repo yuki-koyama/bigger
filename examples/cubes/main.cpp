@@ -100,7 +100,6 @@ void CubesApp::initialize(int argc, char** argv)
     // Instantiate shared resources
     m_cube_material = std::make_shared<bigger::BlinnPhongMaterial>();
     m_cube_primitive = std::make_shared<bigger::CubePrimitive>();
-    m_cube_primitive->initializePrimitive();
 
     // Instantiate scene objects
     for (int x = - m_max_massive_level; x <= m_max_massive_level; ++ x)

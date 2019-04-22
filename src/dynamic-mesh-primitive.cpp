@@ -5,6 +5,8 @@ bigger::DynamicMeshPrimitive::DynamicMeshPrimitive(const std::vector<PositionNor
 {
     m_vertices = vertex_data;
     m_triangle_list = triangle_list;
+
+    initializePrimitive();
 }
 
 void bigger::DynamicMeshPrimitive::initializePrimitive()
