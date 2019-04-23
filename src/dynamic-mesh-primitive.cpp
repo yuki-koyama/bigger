@@ -24,6 +24,8 @@ void bigger::DynamicMeshPrimitive::initializePrimitive()
 void bigger::DynamicMeshPrimitive::submitPrimitive(bgfx::ProgramHandle program, bool preserve_state) const
 {
     assert(m_is_initialized);
+    assert(!m_vertices.empty());
+    assert(!m_triangle_list.empty());
 
     bgfx::update(m_dynamic_vertex_buffer_handle, 0, bgfx::makeRef(m_vertices.data(), sizeof(PositionNormalVertex) * m_vertices.size()));
 
@@ -36,6 +38,8 @@ void bigger::DynamicMeshPrimitive::submitPrimitive(bgfx::ProgramHandle program, 
 void bigger::DynamicMeshPrimitive::destroyPrimitive()
 {
     assert(m_is_initialized);
+    assert(!m_vertices.empty());
+    assert(!m_triangle_list.empty());
 
     bgfx::destroy(m_dynamic_vertex_buffer_handle);
     bgfx::destroy(m_index_buffer_handle);
@@ -43,5 +47,7 @@ void bigger::DynamicMeshPrimitive::destroyPrimitive()
 
 void bigger::DynamicMeshPrimitive::updateVertexData(const std::vector<PositionNormalVertex>& vertex_data)
 {
+    assert(m_vertices.size() == vertex_data.size());
+
     m_vertices = vertex_data;
 }
