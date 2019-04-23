@@ -27,6 +27,54 @@ This library, named `bigger`, is a prototype-oriented middleware library for 3D 
 - string-util <https://github.com/yuki-koyama/string-util> [MIT]
 - tinyobjloader <https://github.com/syoyo/tinyobjloader> [MIT]
 
+## Main Classes
+
+- App __(needs to be overridden)__
+- Camera
+- Primitives
+  - Cube primitive
+  - Dynamic mesh primitive
+  - Mesh primitive
+  - Plane primitive
+  - Sphere primitive
+- Materials
+  - Blinn-Phong material
+
+## App Event Cycle
+
+- `bigger::App::runApp()`
+  - `glfw` initialization
+  - `bgfx` initialization
+  - `imgui` initialization
+  - Reset
+  - `bigger::App::initialize()` __(needs to be overridden)__
+  - Main loop
+    - `glfw` event polling
+    - `imgui` event polling
+    - `bigg::Application::update()`
+      - `bigger::App::update()` __(needs to be overridden)__
+      - Update scene objects (`bigger::SceneObject::update()`)
+      - Render scene objects (`bigger::SceneObject::draw()`)
+    - `imgui` render
+    - `bgfx` submit
+  - `bigger::App::shutdown()`
+    - Release scene objects
+    - `bigger::App::releaseSharedResources()` __(needs to be overridden)__
+  - `imgui` shutdown
+  - `bgfx` shutdown
+  - `glfw` shutdown
+
+## App Design
+
+- Always two directional lights
+  - Other types of lights or more than two directional lights are not supported
+- Intensive use of smart pointers
+  - Primitives and materials need to be dynamically instantiated and managed by smart pointers (i.e., either `std::shared_ptr<T>` or `std::unique_ptr<T>`)
+
 ## License
 
 MIT License
+
+## Contribution
+
+Issue reports & pull requests are highly welcomed.
