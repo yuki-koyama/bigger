@@ -71,6 +71,18 @@ This library, named `bigger`, is a prototype-oriented middleware library for 3D 
 - Intensive use of smart pointers
   - Primitives and materials need to be dynamically instantiated and managed by smart pointers (i.e., either `std::shared_ptr<T>` or `std::unique_ptr<T>`)
 
+## Usage
+
+### Override App Class
+
+The following three methods need to be overridden by the new app class:
+
+- `bigger::App::initialize()`: E.g., initializing the app and instantiating necessary objects living through the app life.
+- `bigger::App::update()`: E.g., writing frame-wise update rules and calling `imgui` draw calls.
+- `bigger::App::releaseSharedResources()`: E.g., releasing shared resources maintained by the app class (such as vertex buffers).
+
+### (TODO)
+
 ## License
 
 MIT License
