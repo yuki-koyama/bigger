@@ -83,6 +83,16 @@ The following three methods need to be overridden by the new app class:
 
 ### (TODO)
 
+### Additional Notes: Screen Capture
+
+`bgfx` provides screen capture functionalities, which of course can be directly called (see the official documentation and examples). For easier use, in `bigger` by default, just inserting the following one-line code into `update()` can capture the screen:
+
+```
+bgfx::requestScreenShot(BGFX_INVALID_HANDLE, "/path/to/output");
+```
+
+Note: On macOS, using the Metal backend somehow fails to capture the screen (not sure why). A possible quick fix is to use OpenGL.
+
 ## License
 
 MIT License
