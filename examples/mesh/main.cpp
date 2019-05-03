@@ -124,5 +124,5 @@ void MeshApp::releaseSharedResources()
 int main(int argc, char** argv)
 {
     MeshApp app;
-    return app.run(argc, argv);
+    return app.runApp(argc, argv);
 }

@@ -30,5 +30,5 @@ void MinimalApp::releaseSharedResources()
 int main(int argc, char** argv)
 {
     MinimalApp app;
-    return app.run(argc, argv);
+    return app.runApp(argc, argv);
 }

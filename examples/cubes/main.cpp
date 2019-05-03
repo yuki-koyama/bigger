@@ -152,5 +152,5 @@ void CubesApp::releaseSharedResources()
 int main(int argc, char** argv)
 {
     CubesApp app;
-    return app.run(argc, argv);
+    return app.runApp(argc, argv);
 }
