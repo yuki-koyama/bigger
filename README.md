@@ -43,26 +43,27 @@ This library, named `bigger`, is a prototype-oriented middleware library for 3D 
 ## App Event Cycle
 
 - `bigger::App::runApp()`
-  - `glfw` initialization
-  - `bgfx` initialization
-  - `imgui` initialization
-  - Reset
-  - `bigger::App::initialize()` __(needs to be overridden)__
-  - Main loop
-    - `glfw` event polling
-    - `imgui` event polling
-    - `bigg::Application::update()`
-      - `bigger::App::update()` __(needs to be overridden)__
-      - Update scene objects (`bigger::SceneObject::update()`)
-      - Render scene objects (`bigger::SceneObject::draw()`)
-    - `imgui` render
-    - `bgfx` submit
-  - `bigger::App::shutdown()`
-    - Release scene objects
-    - `bigger::App::releaseSharedResources()` __(needs to be overridden)__
-  - `imgui` shutdown
-  - `bgfx` shutdown
-  - `glfw` shutdown
+  - `bigg::Application::run()`
+    - `glfw` initialization
+    - `bgfx` initialization
+    - `imgui` initialization
+    - Reset
+    - `bigger::App::initialize()` __(needs to be overridden)__
+    - Main loop
+      - `glfw` event polling
+      - `imgui` event polling
+      - `bigger::App::update()`
+        - `bigger::App::updateApp()` __(needs to be overridden)__
+        - Update scene objects (`bigger::SceneObject::update()`)
+        - Render scene objects (`bigger::SceneObject::draw()`)
+      - `imgui` render
+      - `bgfx` submit
+    - `bigger::App::shutdown()`
+      - Release scene objects
+      - `bigger::App::releaseSharedResources()` __(needs to be overridden)__
+    - `imgui` shutdown
+    - `bgfx` shutdown
+    - `glfw` shutdown
 
 ## App Design
 
@@ -102,9 +103,9 @@ int main(int argc, char** argv)
 
 The following three methods need to be overridden by the new app class:
 
-- `bigger::App::initialize()`: E.g., initializing the app and instantiating necessary objects living through the app life.
-- `bigger::App::update()`: E.g., writing frame-wise update rules and calling `imgui` draw calls.
-- `bigger::App::releaseSharedResources()`: E.g., releasing shared resources maintained by the app class (such as vertex buffers).
+- `bigger::App::initialize()`: Initializing the app and instantiating necessary objects living through the app life.
+- `bigger::App::updateApp()`: Writing frame-wise update rules and calling `imgui` draw calls.
+- `bigger::App::releaseSharedResources()`: Releasing shared resources maintained by the app class (such as vertex buffers).
 
 ### (TODO)
 
