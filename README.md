@@ -73,6 +73,31 @@ This library, named `bigger`, is a prototype-oriented middleware library for 3D 
 
 ## Usage
 
+### Minimal Example
+
+This is a minimal example of using `bigger::App`. This app just shows a blank window and do nothing.
+
+```cpp
+#include <bigger/app.hpp>
+
+class MinimalApp final : public bigger::App
+{
+public:
+
+    MinimalApp() {}
+
+    void initialize(int argc, char** argv) override {}
+    void updateApp() override {}
+    void releaseSharedResources() override {}
+};
+
+int main(int argc, char** argv)
+{
+    MinimalApp app;
+    return app.runApp(argc, argv);
+}
+```
+
 ### Override App Class
 
 The following three methods need to be overridden by the new app class:
