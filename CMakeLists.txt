@@ -71,6 +71,9 @@ add_shader(${CMAKE_CURRENT_SOURCE_DIR}/shaders/blinnphong/fs_blinnphong.sc FRAGM
 
 option(BIGGER_EXAMPLES ON "")
 if(BIGGER_EXAMPLES)
+  add_executable(minimal ${CMAKE_CURRENT_SOURCE_DIR}/examples/minimal/main.cpp)
+  target_link_libraries(minimal bigger)
+
   add_executable(cubes ${CMAKE_CURRENT_SOURCE_DIR}/examples/cubes/main.cpp)
   target_link_libraries(cubes bigger)
   add_custom_command(TARGET cubes POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory ${BIGGER_SHADER_OUTPUT_DIR} $<TARGET_FILE_DIR:cubes>/shaders)

@@ -36,7 +36,7 @@ namespace bigger
 
         // Events to be overridden, provided by bigg::Application
         virtual void initialize(int argc, char** argv) override = 0;
-        virtual void onReset() override = 0;
+        virtual void onReset() override {}
 
         void setRect()
         {
