@@ -16,7 +16,7 @@ namespace bigger
     public:
 
         App(const unsigned int width = 1280, const unsigned int height = 720) :
-        bigg::Application("", 1280, 720)
+        bigg::Application("", width, height)
         {
             m_camera.m_position = { 1.0f, 1.0f, - 2.0f };
             m_camera.m_target = { 0.0f, 0.0f, 0.0f };
