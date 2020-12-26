@@ -24,6 +24,12 @@ set(GLFW_VULKAN_STATIC      OFF CACHE INTERNAL "" FORCE)
 set(LIB_SUFFIX              ""  CACHE INTERNAL "" FORCE)
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/bigg)
 
+# Note: This was necessary to avoid a run-time error on macOS/OpenGL. Without
+# this option, the NSOpenGLViewContext's setView method was called from a
+# wrong (?) thread during bgfx::init and then the app crashes. This needs to be
+# investigated further.
+target_compile_definitions(bgfx PUBLIC BGFX_CONFIG_MULTITHREADED=0)
+
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/rand-util)
 
 add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/external/string-util)
