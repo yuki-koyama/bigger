@@ -5,7 +5,7 @@
 #include <bigger/materials/blinnphong-material.hpp>
 #include <bigger/primitives/cube-primitive.hpp>
 #include <glm/glm.hpp>
-#include <glm/ext.hpp>
+#include <glm/ext/matrix_transform.hpp>
 
 class CubeObject;
 
@@ -58,7 +58,7 @@ public:
     {
         // Update transform
         const float t = m_app->m_time;
-        m_rotate_matrix = glm::rotate(t, glm::vec3(m_x, m_y, 1.0f));
+        m_rotate_matrix = glm::rotate(glm::mat4(1.0), t, glm::vec3(m_x, m_y, 1.0f));
 
         // Update visibility
         m_is_visible = std::max(std::abs(m_x), std::abs(m_y)) <= m_app->m_massive_level;
@@ -108,8 +108,8 @@ void CubesApp::initialize(int argc, char** argv)
         {
             auto cube_object = std::make_shared<CubeObject>(this, x, y, m_cube_material, m_cube_primitive);
 
-            cube_object->m_translate_matrix = glm::translate(glm::vec3(x, y, 0.0f));
-            cube_object->m_scale_matrix = glm::scale(glm::vec3(std::pow(3.0f, - 0.5f)));
+            cube_object->m_translate_matrix = glm::translate(glm::mat4(1.0), glm::vec3(x, y, 0.0f));
+            cube_object->m_scale_matrix = glm::scale(glm::mat4(1.0), glm::vec3(std::pow(3.0f, - 0.5f)));
 
             addSceneObject(cube_object);
         }
