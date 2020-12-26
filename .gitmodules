@@ -3,7 +3,7 @@
 	url = https://github.com/Josh4428/bigg.git
 [submodule "external/tinyobjloader"]
 	path = external/tinyobjloader
-	url = https://github.com/syoyo/tinyobjloader.git
+	url = https://github.com/tinyobjloader/tinyobjloader.git
 [submodule "external/rand-util"]
 	path = external/rand-util
 	url = https://github.com/yuki-koyama/rand-util.git

@@ -25,7 +25,7 @@ This library, named `bigger`, is a prototype-oriented middleware library for 3D 
   - GLM <https://github.com/g-truc/glm> [MIT]
 - random-util <https://github.com/yuki-koyama/rand-util> [MIT]
 - string-util <https://github.com/yuki-koyama/string-util> [MIT]
-- tinyobjloader <https://github.com/syoyo/tinyobjloader> [MIT]
+- tinyobjloader <https://github.com/tinyobjloader/tinyobjloader/> [MIT]
 
 ## Main Classes
 
