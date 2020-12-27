@@ -1,18 +1,17 @@
 #include <array>
-#include <memory>
 #include <bigger/app.hpp>
-#include <bigger/scene-object.hpp>
 #include <bigger/materials/blinnphong-material.hpp>
 #include <bigger/primitives/cube-primitive.hpp>
-#include <glm/glm.hpp>
+#include <bigger/scene-object.hpp>
 #include <glm/ext/matrix_transform.hpp>
+#include <glm/glm.hpp>
+#include <memory>
 
 class CubeObject;
 
 class CubesApp final : public bigger::App
 {
 public:
-
     CubesApp();
 
     void initialize(int argc, char** argv) override;
@@ -28,26 +27,20 @@ public:
     const int m_max_massive_level = 8;
 
 private:
-
     // Shared resources
     std::shared_ptr<bigger::BlinnPhongMaterial> m_cube_material;
-    std::shared_ptr<bigger::CubePrimitive> m_cube_primitive;
+    std::shared_ptr<bigger::CubePrimitive>      m_cube_primitive;
 };
 
 class CubeObject final : public bigger::SceneObject
 {
 public:
-
-    CubeObject(const CubesApp* app,
-               const int x,
-               const int y,
+    CubeObject(const CubesApp*                             app,
+               const int                                   x,
+               const int                                   y,
                std::shared_ptr<bigger::BlinnPhongMaterial> material,
-               std::shared_ptr<bigger::CubePrimitive> cube) :
-    bigger::SceneObject(material),
-    m_x(x),
-    m_y(y),
-    m_app(app),
-    m_cube(cube)
+               std::shared_ptr<bigger::CubePrimitive>      cube)
+        : bigger::SceneObject(material), m_x(x), m_y(y), m_app(app), m_cube(cube)
     {
         assert(app != nullptr);
         assert(material != nullptr);
@@ -57,7 +50,7 @@ public:
     void update() override
     {
         // Update transform
-        const float t = m_app->m_time;
+        const float t   = m_app->m_time;
         m_rotate_matrix = glm::rotate(glm::mat4(1.0), t, glm::vec3(m_x, m_y, 1.0f));
 
         // Update visibility
@@ -77,7 +70,6 @@ public:
     const int m_y;
 
 private:
-
     // Pointer to the app
     const CubesApp* m_app;
 
@@ -87,7 +79,7 @@ private:
 
 CubesApp::CubesApp()
 {
-    getCamera().m_position = glm::vec3(0.0f, 0.0f, - 5.0f);
+    getCamera().m_position = glm::vec3(0.0f, 0.0f, -5.0f);
 
     m_massive_level = 2;
 }
@@ -98,18 +90,18 @@ void CubesApp::initialize(int argc, char** argv)
     reset(BGFX_RESET_VSYNC | BGFX_RESET_MSAA_X8);
 
     // Instantiate shared resources
-    m_cube_material = std::make_shared<bigger::BlinnPhongMaterial>();
+    m_cube_material  = std::make_shared<bigger::BlinnPhongMaterial>();
     m_cube_primitive = std::make_shared<bigger::CubePrimitive>();
 
     // Instantiate scene objects
-    for (int x = - m_max_massive_level; x <= m_max_massive_level; ++ x)
+    for (int x = -m_max_massive_level; x <= m_max_massive_level; ++x)
     {
-        for (int y = - m_max_massive_level; y <= m_max_massive_level; ++ y)
+        for (int y = -m_max_massive_level; y <= m_max_massive_level; ++y)
         {
             auto cube_object = std::make_shared<CubeObject>(this, x, y, m_cube_material, m_cube_primitive);
 
             cube_object->m_translate_matrix = glm::translate(glm::mat4(1.0), glm::vec3(x, y, 0.0f));
-            cube_object->m_scale_matrix = glm::scale(glm::mat4(1.0), glm::vec3(std::pow(3.0f, - 0.5f)));
+            cube_object->m_scale_matrix     = glm::scale(glm::mat4(1.0), glm::vec3(std::pow(3.0f, -0.5f)));
 
             addSceneObject(cube_object);
         }
@@ -132,7 +124,7 @@ void CubesApp::updateApp()
         ImGui::Text("time: %.2f", m_time);
         ImGui::Text("fps: %.2f", 1.0f / m_last_dt);
         ImGui::Separator();
-        ImGui::SliderFloat3("camera.position", glm::value_ptr(getCamera().m_position), - 10.0f, 10.0f);
+        ImGui::SliderFloat3("camera.position", glm::value_ptr(getCamera().m_position), -10.0f, 10.0f);
         ImGui::SliderFloat("camera.fov", &(getCamera().m_fov), 10.0f, 120.0f);
         ImGui::Separator();
         m_cube_material->drawImgui();
@@ -145,7 +137,7 @@ void CubesApp::updateApp()
 void CubesApp::releaseSharedResources()
 {
     // Release shared resources
-    m_cube_material = nullptr;
+    m_cube_material  = nullptr;
     m_cube_primitive = nullptr;
 }
 

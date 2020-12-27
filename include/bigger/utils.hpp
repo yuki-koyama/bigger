@@ -1,8 +1,8 @@
 #ifndef BIGGER_UTILS_HPP
 #define BIGGER_UTILS_HPP
 
-#include <string>
 #include <bgfx/bgfx.h>
+#include <string>
 
 namespace bigger
 {

@@ -3,7 +3,6 @@
 class MinimalApp final : public bigger::App
 {
 public:
-
     MinimalApp() {}
 
     void initialize(int argc, char** argv) override {}

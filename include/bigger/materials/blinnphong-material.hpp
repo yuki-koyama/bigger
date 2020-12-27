@@ -1,9 +1,9 @@
 #ifndef BIGGER_BLINNPHONG_MATERIAL_HPP
 #define BIGGER_BLINNPHONG_MATERIAL_HPP
 
-#include <bigger/material.hpp>
 #include <array>
 #include <bgfx/bgfx.h>
+#include <bigger/material.hpp>
 #include <glm/glm.hpp>
 #include <imgui.h>
 
@@ -12,7 +12,6 @@ namespace bigger
     class BlinnPhongMaterial final : public Material
     {
     public:
-
         static constexpr unsigned int num_vec4_uniforms = 7;
 
         struct DirLight
@@ -26,24 +25,20 @@ namespace bigger
             m_handle = bgfx::createUniform("u_params", bgfx::UniformType::Vec4, num_vec4_uniforms);
         }
 
-        ~BlinnPhongMaterial()
-        {
-            bgfx::destroy(m_handle);
-        }
+        ~BlinnPhongMaterial() { bgfx::destroy(m_handle); }
 
         void submitUniforms() override
         {
             constexpr float dummy = 0.0f;
 
-            const std::array<glm::vec4, num_vec4_uniforms> buffer =
-            {{
-                { u_diffuse, dummy },
-                { u_specular, dummy },
-                { u_ambient, u_shininess },
-                { u_dir_lights[0].dir, dummy },
-                { u_dir_lights[0].color, dummy },
-                { u_dir_lights[1].dir, dummy },
-                { u_dir_lights[1].color, dummy },
+            const std::array<glm::vec4, num_vec4_uniforms> buffer = {{
+                {u_diffuse, dummy},
+                {u_specular, dummy},
+                {u_ambient, u_shininess},
+                {u_dir_lights[0].dir, dummy},
+                {u_dir_lights[0].color, dummy},
+                {u_dir_lights[1].dir, dummy},
+                {u_dir_lights[1].color, dummy},
             }};
             bgfx::setUniform(m_handle, buffer.data(), num_vec4_uniforms);
         }
@@ -60,21 +55,19 @@ namespace bigger
             ImGui::SliderFloat3("dir_light_1_color", glm::value_ptr(u_dir_lights[1].color), 0.0f, 1.0f);
         }
 
-        glm::vec3 u_diffuse = glm::vec3(0.5f, 0.4f, 0.6f);
-        glm::vec3 u_specular = glm::vec3(1.0f, 1.0f, 1.0f);
-        glm::vec3 u_ambient = glm::vec3(0.0f, 0.0f, 0.0f);
-        float u_shininess = 128.0f;
+        glm::vec3 u_diffuse   = glm::vec3(0.5f, 0.4f, 0.6f);
+        glm::vec3 u_specular  = glm::vec3(1.0f, 1.0f, 1.0f);
+        glm::vec3 u_ambient   = glm::vec3(0.0f, 0.0f, 0.0f);
+        float     u_shininess = 128.0f;
 
-        std::array<DirLight, 2> u_dir_lights =
-        {{
-            DirLight{ { + 0.5, + 0.5, + 1.0 }, { 1.0, 0.9, 0.9 } },
-            DirLight{ { - 1.0, + 0.0, + 0.0 }, { 0.2, 0.2, 0.5 } },
+        std::array<DirLight, 2> u_dir_lights = {{
+            DirLight{{+0.5, +0.5, +1.0}, {1.0, 0.9, 0.9}},
+            DirLight{{-1.0, +0.0, +0.0}, {0.2, 0.2, 0.5}},
         }};
 
     private:
-
         bgfx::UniformHandle m_handle;
     };
-}
+} // namespace bigger
 
 #endif // BIGGER_BLINNPHONG_MATERIAL_HPP

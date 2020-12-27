@@ -1,23 +1,19 @@
 #include <array>
-#include <cmath>
-#include <memory>
 #include <bigger/app.hpp>
-#include <bigger/scene-object.hpp>
 #include <bigger/materials/blinnphong-material.hpp>
 #include <bigger/primitives/mesh-primitive.hpp>
-#include <glm/glm.hpp>
+#include <bigger/scene-object.hpp>
+#include <cmath>
 #include <glm/ext/matrix_transform.hpp>
+#include <glm/glm.hpp>
+#include <memory>
 
 class MeshObject;
 
 class MeshApp final : public bigger::App
 {
 public:
-
-    MeshApp()
-    {
-        getCamera().m_target = glm::vec3(0.0f, 0.3f, 0.0f);
-    }
+    MeshApp() { getCamera().m_target = glm::vec3(0.0f, 0.3f, 0.0f); }
 
     void initialize(int argc, char** argv) override;
     void onReset() override;
@@ -26,22 +22,18 @@ public:
     void releaseSharedResources() override;
 
 private:
-
     // Shared resources
     std::shared_ptr<bigger::BlinnPhongMaterial> m_mesh_material;
-    std::shared_ptr<bigger::MeshPrimitive> m_mesh_primitive;
+    std::shared_ptr<bigger::MeshPrimitive>      m_mesh_primitive;
 };
 
 class MeshObject final : public bigger::SceneObject
 {
 public:
-
-    MeshObject(const MeshApp* app,
+    MeshObject(const MeshApp*                              app,
                std::shared_ptr<bigger::BlinnPhongMaterial> material,
-               std::shared_ptr<bigger::MeshPrimitive> mesh) :
-    bigger::SceneObject(material),
-    m_app(app),
-    m_primitive(mesh)
+               std::shared_ptr<bigger::MeshPrimitive>      mesh)
+        : bigger::SceneObject(material), m_app(app), m_primitive(mesh)
     {
         assert(app != nullptr);
         assert(material != nullptr);
@@ -51,7 +43,7 @@ public:
     void update() override
     {
         // Update transform
-        const float t = m_app->m_time;
+        const float t   = m_app->m_time;
         m_rotate_matrix = glm::rotate(glm::mat4(1.0f), t, glm::vec3(0.0f, 1.0f, 0.0f));
     }
 
@@ -65,7 +57,6 @@ public:
     }
 
 private:
-
     // Pointer to the app
     const MeshApp* m_app;
 
@@ -82,7 +73,7 @@ void MeshApp::initialize(int argc, char** argv)
     m_mesh_material = std::make_shared<bigger::BlinnPhongMaterial>();
 
     const std::string obj_path = "models/teapot.obj";
-    m_mesh_primitive = std::make_shared<bigger::MeshPrimitive>(obj_path);
+    m_mesh_primitive           = std::make_shared<bigger::MeshPrimitive>(obj_path);
 
     // Instantiate scene objects
     auto mesh_object = std::make_shared<MeshObject>(this, m_mesh_material, m_mesh_primitive);
@@ -106,7 +97,7 @@ void MeshApp::updateApp()
         ImGui::Text("time: %.2f", m_time);
         ImGui::Text("fps: %.2f", 1.0f / m_last_dt);
         ImGui::Separator();
-        ImGui::SliderFloat3("camera.position", glm::value_ptr(getCamera().m_position), - 10.0f, 10.0f);
+        ImGui::SliderFloat3("camera.position", glm::value_ptr(getCamera().m_position), -10.0f, 10.0f);
         ImGui::SliderFloat("camera.fov", &(getCamera().m_fov), 10.0f, 120.0f);
         ImGui::Separator();
         m_mesh_material->drawImgui();
@@ -117,7 +108,7 @@ void MeshApp::updateApp()
 void MeshApp::releaseSharedResources()
 {
     // Release shared resources
-    m_mesh_material = nullptr;
+    m_mesh_material  = nullptr;
     m_mesh_primitive = nullptr;
 }
 

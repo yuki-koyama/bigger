@@ -1,10 +1,10 @@
 #ifndef BIGGER_PRIMITIVE_HPP
 #define BIGGER_PRIMITIVE_HPP
 
-#include <cassert>
-#include <vector>
 #include <bgfx/bgfx.h>
+#include <cassert>
 #include <glm/glm.hpp>
+#include <vector>
 
 namespace bigger
 {
@@ -17,9 +17,9 @@ namespace bigger
         {
             bgfx::VertexLayout vertex_layout;
             vertex_layout.begin()
-            .add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
-            .add(bgfx::Attrib::Normal, 3, bgfx::AttribType::Float)
-            .end();
+                .add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
+                .add(bgfx::Attrib::Normal, 3, bgfx::AttribType::Float)
+                .end();
             return vertex_layout;
         }
     };
@@ -27,7 +27,6 @@ namespace bigger
     class Primitive
     {
     public:
-
         Primitive() : m_is_initialized(false) {}
         virtual ~Primitive() { destroyPrimitive(); }
 
@@ -42,14 +41,13 @@ namespace bigger
         }
 
     protected:
-
         std::vector<PositionNormalVertex> m_vertices;
-        std::vector<uint16_t> m_triangle_list;
+        std::vector<uint16_t>             m_triangle_list;
 
         bool m_is_initialized;
 
         bgfx::VertexBufferHandle m_vertex_buffer_handle;
-        bgfx::IndexBufferHandle m_index_buffer_handle;
+        bgfx::IndexBufferHandle  m_index_buffer_handle;
 
         virtual void initializePrimitive()
         {
@@ -57,14 +55,16 @@ namespace bigger
             assert(!m_triangle_list.empty());
 
             const bgfx::VertexLayout vertex_layout = PositionNormalVertex::getVertexLayout();
-            m_vertex_buffer_handle = bgfx::createVertexBuffer(bgfx::makeRef(m_vertices.data(), sizeof(PositionNormalVertex) * m_vertices.size()), vertex_layout);
-            m_index_buffer_handle = bgfx::createIndexBuffer(bgfx::makeRef(m_triangle_list.data(), sizeof(uint16_t) * m_triangle_list.size()));
+
+            m_vertex_buffer_handle = bgfx::createVertexBuffer(
+                bgfx::makeRef(m_vertices.data(), sizeof(PositionNormalVertex) * m_vertices.size()), vertex_layout);
+            m_index_buffer_handle = bgfx::createIndexBuffer(
+                bgfx::makeRef(m_triangle_list.data(), sizeof(uint16_t) * m_triangle_list.size()));
 
             m_is_initialized = true;
         }
 
     private:
-
         virtual void destroyPrimitive()
         {
             assert(m_is_initialized);
@@ -73,6 +73,6 @@ namespace bigger
             bgfx::destroy(m_index_buffer_handle);
         }
     };
-}
+} // namespace bigger
 
 #endif // BIGGER_PRIMITIVE_HPP

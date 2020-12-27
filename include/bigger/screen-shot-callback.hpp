@@ -9,22 +9,32 @@ namespace bigger
 {
     struct ScreenShotCallback : public bgfx::CallbackI
     {
-        enum class ImageType { Png, Tga };
+        enum class ImageType
+        {
+            Png,
+            Tga
+        };
 
         virtual ~ScreenShotCallback() {}
-        virtual void fatal(const char*, uint16_t, bgfx::Fatal::Enum, const char*) override {}
-        virtual void traceVargs(const char*, uint16_t, const char*, va_list) override {}
-        virtual void profilerBegin(const char*, uint32_t, const char*, uint16_t) override {}
-        virtual void profilerBeginLiteral(const char*, uint32_t, const char*, uint16_t) override {}
-        virtual void profilerEnd() override {}
+        virtual void     fatal(const char*, uint16_t, bgfx::Fatal::Enum, const char*) override {}
+        virtual void     traceVargs(const char*, uint16_t, const char*, va_list) override {}
+        virtual void     profilerBegin(const char*, uint32_t, const char*, uint16_t) override {}
+        virtual void     profilerBeginLiteral(const char*, uint32_t, const char*, uint16_t) override {}
+        virtual void     profilerEnd() override {}
         virtual uint32_t cacheReadSize(uint64_t) override { return 0; }
-        virtual bool cacheRead(uint64_t, void*, uint32_t) override { return false; }
-        virtual void cacheWrite(uint64_t, const void*, uint32_t) override {}
-        virtual void captureBegin(uint32_t, uint32_t, uint32_t, bgfx::TextureFormat::Enum, bool) override {}
-        virtual void captureEnd() override {}
-        virtual void captureFrame(const void*, uint32_t) override {}
+        virtual bool     cacheRead(uint64_t, void*, uint32_t) override { return false; }
+        virtual void     cacheWrite(uint64_t, const void*, uint32_t) override {}
+        virtual void     captureBegin(uint32_t, uint32_t, uint32_t, bgfx::TextureFormat::Enum, bool) override {}
+        virtual void     captureEnd() override {}
+        virtual void     captureFrame(const void*, uint32_t) override {}
 
-        virtual void screenShot(const char* _filePath, uint32_t _width, uint32_t _height, uint32_t _pitch, const void* _data, uint32_t _size, bool _yflip) override
+        virtual void screenShot(const char* _filePath,
+                                uint32_t    _width,
+                                uint32_t    _height,
+                                uint32_t    _pitch,
+                                const void* _data,
+                                uint32_t    _size,
+                                bool        _yflip) override
         {
             const std::string full_path = std::string(_filePath) + ((image_type == ImageType::Png) ? ".png" : ".tga");
 
@@ -33,7 +43,8 @@ namespace bigger
             {
                 if (image_type == ImageType::Png)
                 {
-                    bimg::imageWritePng(&writer, _width, _height, _pitch, _data, bimg::TextureFormat::BGRA8, _yflip, nullptr);
+                    bimg::imageWritePng(
+                        &writer, _width, _height, _pitch, _data, bimg::TextureFormat::BGRA8, _yflip, nullptr);
                 }
                 else
                 {
@@ -50,6 +61,6 @@ namespace bigger
 
         ImageType image_type = ImageType::Tga;
     };
-}
+} // namespace bigger
 
 #endif // BIGGER_SCREEN_SHOT_CALLBACK_HPP

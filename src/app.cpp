@@ -2,8 +2,8 @@
 #include <bigger/material.hpp>
 #include <bigger/scene-object.hpp>
 #include <bigger/screen-shot-callback.hpp>
-#include <stdexcept>
 #include <rand-util.hpp>
+#include <stdexcept>
 
 int bigger::App::runApp(int argc, char** argv, bgfx::RendererType::Enum type)
 {
@@ -16,7 +16,7 @@ void bigger::App::addSceneObject(std::shared_ptr<SceneObject> scene_object, cons
     if (name.empty())
     {
         const std::string random_name = randutil::GenRandomString();
-        m_scene_objects[random_name] = scene_object;
+        m_scene_objects[random_name]  = scene_object;
     }
     else
     {
@@ -35,7 +35,7 @@ void bigger::App::update(float dt)
     // Update state variables
     m_last_dt = dt;
     m_time += dt;
-    ++ m_frame;
+    ++m_frame;
 
     // Call the application-specific update method
     updateApp();
