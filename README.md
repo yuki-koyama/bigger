@@ -2,6 +2,7 @@
 
 ![macOS](https://github.com/yuki-koyama/bigger/workflows/macOS/badge.svg)
 ![Ubuntu](https://github.com/yuki-koyama/bigger/workflows/Ubuntu/badge.svg)
+[![GitHub license](https://img.shields.io/github/license/yuki-koyama/bigger)](https://github.com/yuki-koyama/bigger/blob/master/LICENSE)
 
 bigg (bgfx + imgui + glfw + glm) + utils
 
