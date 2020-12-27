@@ -1,5 +1,5 @@
-#ifndef scene_object_hpp
-#define scene_object_hpp
+#ifndef BIGGER_SCENE_OBJECT_HPP
+#define BIGGER_SCENE_OBJECT_HPP
 
 #include <memory>
 #include <glm/glm.hpp>
@@ -33,4 +33,4 @@ namespace bigger
     };
 }
 
-#endif /* scene_object_hpp */
+#endif // BIGGER_SCENE_OBJECT_HPP

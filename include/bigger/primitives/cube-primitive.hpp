@@ -1,5 +1,5 @@
-#ifndef cube_primitive_hpp
-#define cube_primitive_hpp
+#ifndef BIGGER_CUBE_PRIMITIVE_HPP
+#define BIGGER_CUBE_PRIMITIVE_HPP
 
 #include <bigger/primitive.hpp>
 
@@ -77,4 +77,4 @@ namespace bigger
     };
 }
 
-#endif /* cube_primitive_hpp */
+#endif // BIGGER_CUBE_PRIMITIVE_HPP

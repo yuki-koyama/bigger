@@ -1,5 +1,5 @@
-#ifndef camera_hpp
-#define camera_hpp
+#ifndef BIGGER_CAMERA_HPP
+#define BIGGER_CAMERA_HPP
 
 #include <glm/glm.hpp>
 #include <glm/ext.hpp>
@@ -25,4 +25,4 @@ namespace bigger
     };
 }
 
-#endif /* camera_hpp */
+#endif // BIGGER_CAMERA_HPP

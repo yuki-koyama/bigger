@@ -1,5 +1,5 @@
-#ifndef app_hpp
-#define app_hpp
+#ifndef BIGGER_APP_HPP
+#define BIGGER_APP_HPP
 
 #include <memory>
 #include <string>
@@ -76,4 +76,4 @@ namespace bigger
     };
 }
 
-#endif /* app_hpp */
+#endif // BIGGER_APP_HPP

@@ -1,5 +1,5 @@
-#ifndef blinnphong_material_hpp
-#define blinnphong_material_hpp
+#ifndef BIGGER_BLINNPHONG_MATERIAL_HPP
+#define BIGGER_BLINNPHONG_MATERIAL_HPP
 
 #include <bigger/material.hpp>
 #include <array>
@@ -77,4 +77,4 @@ namespace bigger
     };
 }
 
-#endif /* blinnphong_material_hpp */
+#endif // BIGGER_BLINNPHONG_MATERIAL_HPP

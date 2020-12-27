@@ -1,5 +1,5 @@
-#ifndef primitive_hpp
-#define primitive_hpp
+#ifndef BIGGER_PRIMITIVE_HPP
+#define BIGGER_PRIMITIVE_HPP
 
 #include <cassert>
 #include <vector>
@@ -75,4 +75,4 @@ namespace bigger
     };
 }
 
-#endif /* primitive_hpp */
+#endif // BIGGER_PRIMITIVE_HPP

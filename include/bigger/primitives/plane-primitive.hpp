@@ -1,5 +1,5 @@
-#ifndef plane_primitive_hpp
-#define plane_primitive_hpp
+#ifndef BIGGER_PLANE_PRIMITIVE_HPP
+#define BIGGER_PLANE_PRIMITIVE_HPP
 
 #include <bigger/primitive.hpp>
 
@@ -30,4 +30,4 @@ namespace bigger
     };
 }
 
-#endif /* plane_primitive_hpp */
+#endif // BIGGER_PLANE_PRIMITIVE_HPP

@@ -1,5 +1,5 @@
-#ifndef material_hpp
-#define material_hpp
+#ifndef BIGGER_MATERIAL_HPP
+#define BIGGER_MATERIAL_HPP
 
 #include <bigger/utils.hpp>
 #include <string>
@@ -32,4 +32,4 @@ namespace bigger
     };
 }
 
-#endif /* material_hpp */
+#endif // BIGGER_MATERIAL_HPP

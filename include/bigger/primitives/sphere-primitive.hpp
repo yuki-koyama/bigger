@@ -1,5 +1,5 @@
-#ifndef sphere_hpp
-#define sphere_hpp
+#ifndef BIGGER_SPHERE_PRIMITIVE_HPP
+#define BIGGER_SPHERE_PRIMITIVE_HPP
 
 #include <bigger/primitive.hpp>
 
@@ -64,4 +64,4 @@ namespace bigger
     };
 }
 
-#endif /* sphere_hpp */
+#endif // BIGGER_SPHERE_PRIMITIVE_HPP

@@ -1,5 +1,5 @@
-#ifndef screen_shot_callback_hpp
-#define screen_shot_callback_hpp
+#ifndef BIGGER_SCREEN_SHOT_CALLBACK_HPP
+#define BIGGER_SCREEN_SHOT_CALLBACK_HPP
 
 #include <bgfx/bgfx.h>
 #include <bimg/bimg.h>
@@ -52,4 +52,4 @@ namespace bigger
     };
 }
 
-#endif /* screen_shot_callback_hpp */
+#endif // BIGGER_SCREEN_SHOT_CALLBACK_HPP

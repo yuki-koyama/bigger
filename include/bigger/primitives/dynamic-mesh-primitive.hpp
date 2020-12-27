@@ -1,5 +1,5 @@
-#ifndef dynamic_mesh_primitive_hpp
-#define dynamic_mesh_primitive_hpp
+#ifndef BIGGER_DYNAMIC_MESH_PRIMITIVE_HPP
+#define BIGGER_DYNAMIC_MESH_PRIMITIVE_HPP
 
 #include <bigger/primitive.hpp>
 
@@ -24,4 +24,4 @@ namespace bigger
     };
 }
 
-#endif /* dynamic_mesh_primitive_hpp */
+#endif // BIGGER_DYNAMIC_MESH_PRIMITIVE_HPP

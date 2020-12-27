@@ -1,5 +1,5 @@
-#ifndef mesh_primitive_h
-#define mesh_primitive_h
+#ifndef BIGGER_MESH_PRIMITIVE_HPP
+#define BIGGER_MESH_PRIMITIVE_HPP
 
 #include <string>
 #include <bigger/primitive.hpp>
@@ -14,4 +14,4 @@ namespace bigger
     };
 }
 
-#endif /* mesh_primitive_h */
+#endif // BIGGER_MESH_PRIMITIVE_HPP
