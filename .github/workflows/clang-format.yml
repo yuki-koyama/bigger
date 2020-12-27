@@ -1,0 +1,16 @@
+name: Format Test
+
+on: [push]
+
+jobs:
+  format-test:
+
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: install-clang-format
+      run: brew install clang-format
+    - name: clang-format
+      run: |
+        sh ./.github/workflows/clang-format.sh
