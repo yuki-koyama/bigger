@@ -45,14 +45,15 @@ namespace bigger
 
         void drawImgui() override
         {
-            ImGui::SliderFloat3("diffuse", glm::value_ptr(u_diffuse), 0.0f, 1.0f);
-            ImGui::SliderFloat3("specular", glm::value_ptr(u_specular), 0.0f, 1.0f);
-            ImGui::SliderFloat3("ambient", glm::value_ptr(u_ambient), 0.0f, 1.0f);
-            ImGui::SliderFloat("shininess", &u_shininess, 0.1f, 256.0f);
+            ImGui::Text("Material Setting");
+            ImGui::ColorEdit3("diffuse", glm::value_ptr(u_diffuse));
+            ImGui::ColorEdit3("specular", glm::value_ptr(u_specular));
+            ImGui::ColorEdit3("ambient", glm::value_ptr(u_ambient));
+            ImGui::SliderFloat("shininess", &u_shininess, 0.5f, 256.0f);
             ImGui::SliderFloat3("dir_light_0_dir", glm::value_ptr(u_dir_lights[0].dir), -1.0f, 1.0f);
-            ImGui::SliderFloat3("dir_light_0_color", glm::value_ptr(u_dir_lights[0].color), 0.0f, 1.0f);
+            ImGui::ColorEdit3("dir_light_0_color", glm::value_ptr(u_dir_lights[0].color));
             ImGui::SliderFloat3("dir_light_1_dir", glm::value_ptr(u_dir_lights[1].dir), -1.0f, 1.0f);
-            ImGui::SliderFloat3("dir_light_1_color", glm::value_ptr(u_dir_lights[1].color), 0.0f, 1.0f);
+            ImGui::ColorEdit3("dir_light_1_color", glm::value_ptr(u_dir_lights[1].color));
         }
 
         glm::vec3 u_diffuse   = glm::vec3(0.5f, 0.4f, 0.6f);

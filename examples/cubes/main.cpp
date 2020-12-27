@@ -124,6 +124,7 @@ void CubesApp::updateApp()
         ImGui::Text("time: %.2f", m_time);
         ImGui::Text("fps: %.2f", 1.0f / m_last_dt);
         ImGui::Separator();
+        ImGui::Text("Camera Setting");
         ImGui::SliderFloat3("camera.position", glm::value_ptr(getCamera().m_position), -10.0f, 10.0f);
         ImGui::SliderFloat("camera.fov", &(getCamera().m_fov), 10.0f, 120.0f);
         ImGui::Separator();
