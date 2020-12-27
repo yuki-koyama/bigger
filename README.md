@@ -1,6 +1,7 @@
 # bigger
 
-[![Build Status](https://travis-ci.com/yuki-koyama/bigger.svg?branch=master)](https://travis-ci.com/yuki-koyama/bigger)
+![macOS](https://github.com/yuki-koyama/bigger/workflows/macOS/badge.svg)
+![Ubuntu](https://github.com/yuki-koyama/bigger/workflows/Ubuntu/badge.svg)
 
 bigg (bgfx + imgui + glfw + glm) + utils
 
@@ -117,7 +118,7 @@ The following three methods need to be overridden by the new app class:
 bgfx::requestScreenShot(BGFX_INVALID_HANDLE, "/path/to/output");
 ```
 
-Note: On macOS, using the Metal backend somehow fails to capture the screen (not sure why; probably related to [this issue](https://github.com/bkaradzic/bgfx/issues/1833)). A possible quick fix is to use OpenGL. 
+Note: On macOS, using the Metal backend somehow fails to capture the screen (not sure why; probably related to [this issue](https://github.com/bkaradzic/bgfx/issues/1833)). A possible quick fix is to use OpenGL.
 
 ## License
 
