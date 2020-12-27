@@ -14,8 +14,8 @@ void bigger::DynamicMeshPrimitive::initializePrimitive()
     assert(!m_vertices.empty());
     assert(!m_triangle_list.empty());
 
-    const bgfx::VertexDecl vertex_decl = PositionNormalVertex::getVertexDecl();
-    m_dynamic_vertex_buffer_handle = bgfx::createDynamicVertexBuffer(bgfx::makeRef(m_vertices.data(), sizeof(PositionNormalVertex) * m_vertices.size()), vertex_decl);
+    const bgfx::VertexLayout vertex_layout = PositionNormalVertex::getVertexLayout();
+    m_dynamic_vertex_buffer_handle = bgfx::createDynamicVertexBuffer(bgfx::makeRef(m_vertices.data(), sizeof(PositionNormalVertex) * m_vertices.size()), vertex_layout);
     m_index_buffer_handle = bgfx::createIndexBuffer(bgfx::makeRef(m_triangle_list.data(), sizeof(uint16_t) * m_triangle_list.size()));
 
     m_is_initialized = true;

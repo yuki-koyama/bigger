@@ -15,8 +15,8 @@ This library, named `bigger`, is a prototype-oriented middleware library for 3D 
 
 ## Dependencies
 
-- bigg <https://github.com/JoshuaBrookover/bigg> [Unlicense]
-  - bgfx.cmake <https://github.com/JoshuaBrookover/bgfx.cmake> [CC0 1.0 Universal]
+- bigg <https://github.com/Josh4428/bigg> [Unlicense]
+  - bgfx.cmake <https://github.com/widberg/bgfx.cmake> [CC0 1.0 Universal]
     - bgfx <https://github.com/bkaradzic/bgfx> [BSD 2-Clause]
     - bimg <https://github.com/bkaradzic/bimg> [BSD 2-Clause]
     - bx <https://github.com/bkaradzic/bx> [BSD 2-Clause]
@@ -25,7 +25,7 @@ This library, named `bigger`, is a prototype-oriented middleware library for 3D 
   - GLM <https://github.com/g-truc/glm> [MIT]
 - random-util <https://github.com/yuki-koyama/rand-util> [MIT]
 - string-util <https://github.com/yuki-koyama/string-util> [MIT]
-- tinyobjloader <https://github.com/syoyo/tinyobjloader> [MIT]
+- tinyobjloader <https://github.com/tinyobjloader/tinyobjloader/> [MIT]
 
 ## Main Classes
 

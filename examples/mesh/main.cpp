@@ -6,7 +6,7 @@
 #include <bigger/materials/blinnphong-material.hpp>
 #include <bigger/primitives/mesh-primitive.hpp>
 #include <glm/glm.hpp>
-#include <glm/ext.hpp>
+#include <glm/ext/matrix_transform.hpp>
 
 class MeshObject;
 
@@ -52,7 +52,7 @@ public:
     {
         // Update transform
         const float t = m_app->m_time;
-        m_rotate_matrix = glm::rotate(t, glm::vec3(0.0f, 1.0f, 0.0f));
+        m_rotate_matrix = glm::rotate(glm::mat4(1.0f), t, glm::vec3(0.0f, 1.0f, 0.0f));
     }
 
     void draw(const glm::mat4& parent_transform_matrix = glm::mat4(1.0f)) override
