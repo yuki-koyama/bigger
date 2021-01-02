@@ -51,6 +51,11 @@ vec3 calculateSingleLightShading(DirLight dir_light, Material material, vec3 nor
     return diffuse + specular;
 }
 
+vec3 convertToGamma(vec3 linear_color)
+{
+    return pow(linear_color, vec3_splat(1.0 / gamma));
+}
+
 void main()
 {
     vec3 linear_color = vec3(0.0, 0.0, 0.0);
@@ -71,7 +76,7 @@ void main()
 
     linear_color += material.ambient;
 
-    vec3 corrected_color = pow(linear_color, vec3_splat(1.0 / gamma));
+    vec3 corrected_color = convertToGamma(linear_color);
 
     gl_FragColor.xyz = corrected_color;
     gl_FragColor.w = 1.0;
