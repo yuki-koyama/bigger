@@ -57,6 +57,7 @@ set(headers
 )
 set(sources
   ${CMAKE_CURRENT_SOURCE_DIR}/src/app.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/src/camera.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/dynamic-mesh-primitive.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/mesh-primitive.cpp
   ${CMAKE_CURRENT_SOURCE_DIR}/src/utils.cpp

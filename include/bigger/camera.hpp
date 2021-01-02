@@ -18,6 +18,8 @@ namespace bigger
         float m_far_clip  = 100.0f;
 
         glm::mat4 getViewMatrix() const { return glm::lookAt(m_position, m_target, m_up); }
+
+        void drawImgui();
     };
 } // namespace bigger
 
