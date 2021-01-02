@@ -1,7 +1,7 @@
 #include <bigger/primitives/dynamic-mesh-primitive.hpp>
 
-bigger::DynamicMeshPrimitive::DynamicMeshPrimitive(const std::vector<PositionNormalVertex>& vertex_data,
-                                                   const std::vector<uint16_t>&             triangle_list)
+bigger::DynamicMeshPrimitive::DynamicMeshPrimitive(const std::vector<PositionNormalUvVertex>& vertex_data,
+                                                   const std::vector<uint16_t>&               triangle_list)
 {
     m_vertices      = vertex_data;
     m_triangle_list = triangle_list;
@@ -14,10 +14,10 @@ void bigger::DynamicMeshPrimitive::initializePrimitive()
     assert(!m_vertices.empty());
     assert(!m_triangle_list.empty());
 
-    const bgfx::VertexLayout vertex_layout = PositionNormalVertex::getVertexLayout();
+    const bgfx::VertexLayout vertex_layout = PositionNormalUvVertex::getVertexLayout();
 
     m_dynamic_vertex_buffer_handle = bgfx::createDynamicVertexBuffer(
-        bgfx::makeRef(m_vertices.data(), sizeof(PositionNormalVertex) * m_vertices.size()), vertex_layout);
+        bgfx::makeRef(m_vertices.data(), sizeof(PositionNormalUvVertex) * m_vertices.size()), vertex_layout);
     m_index_buffer_handle =
         bgfx::createIndexBuffer(bgfx::makeRef(m_triangle_list.data(), sizeof(uint16_t) * m_triangle_list.size()));
 
@@ -32,7 +32,7 @@ void bigger::DynamicMeshPrimitive::submitPrimitive(bgfx::ProgramHandle program, 
 
     bgfx::update(m_dynamic_vertex_buffer_handle,
                  0,
-                 bgfx::makeRef(m_vertices.data(), sizeof(PositionNormalVertex) * m_vertices.size()));
+                 bgfx::makeRef(m_vertices.data(), sizeof(PositionNormalUvVertex) * m_vertices.size()));
 
     bgfx::setVertexBuffer(0, m_dynamic_vertex_buffer_handle);
     bgfx::setIndexBuffer(m_index_buffer_handle);
@@ -50,7 +50,7 @@ void bigger::DynamicMeshPrimitive::destroyPrimitive()
     bgfx::destroy(m_index_buffer_handle);
 }
 
-void bigger::DynamicMeshPrimitive::updateVertexData(const std::vector<PositionNormalVertex>& vertex_data)
+void bigger::DynamicMeshPrimitive::updateVertexData(const std::vector<PositionNormalUvVertex>& vertex_data)
 {
     assert(m_vertices.size() == vertex_data.size());
 
