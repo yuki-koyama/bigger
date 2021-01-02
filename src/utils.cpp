@@ -3,8 +3,6 @@
 #include <bx/file.h>
 #include <stdexcept>
 
-#define DBG(_format, ...) printf("Error")
-
 // The following functions in the "bgfx_utils" namespace were originally distributed in the bgfx repository (in the
 // examples directory) under the BSD 2-clause license. Yuki Koyama modified them slightly and redistribute them under
 // the MIT license here.
@@ -43,7 +41,7 @@ namespace bgfx_utils
         }
         else
         {
-            DBG("Failed to open: %s.", _filePath);
+            printf("Failed to open: %s.\n", _filePath);
         }
 
         if (NULL != _size)
