@@ -72,7 +72,7 @@ void MeshApp::initialize(int argc, char** argv)
     // Instantiate shared resources
     m_mesh_material = std::make_shared<bigger::BlinnPhongMaterial>();
 
-    const std::string obj_path = "models/teapot.obj";
+    const std::string obj_path = "assets/teapot.obj";
     m_mesh_primitive           = std::make_shared<bigger::MeshPrimitive>(obj_path);
 
     // Instantiate scene objects
