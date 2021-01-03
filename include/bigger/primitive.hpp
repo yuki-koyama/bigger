@@ -8,10 +8,11 @@
 
 namespace bigger
 {
-    struct PositionNormalVertex
+    struct PositionNormalUvVertex
     {
         glm::vec3 position;
         glm::vec3 normal;
+        glm::vec2 uv;
 
         static bgfx::VertexLayout getVertexLayout()
         {
@@ -19,6 +20,7 @@ namespace bigger
             vertex_layout.begin()
                 .add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
                 .add(bgfx::Attrib::Normal, 3, bgfx::AttribType::Float)
+                .add(bgfx::Attrib::TexCoord0, 2, bgfx::AttribType::Float)
                 .end();
             return vertex_layout;
         }
@@ -41,8 +43,8 @@ namespace bigger
         }
 
     protected:
-        std::vector<PositionNormalVertex> m_vertices;
-        std::vector<uint16_t>             m_triangle_list;
+        std::vector<PositionNormalUvVertex> m_vertices;
+        std::vector<uint16_t>               m_triangle_list;
 
         bool m_is_initialized;
 
@@ -54,10 +56,11 @@ namespace bigger
             assert(!m_vertices.empty());
             assert(!m_triangle_list.empty());
 
-            const bgfx::VertexLayout vertex_layout = PositionNormalVertex::getVertexLayout();
+            const bgfx::VertexLayout vertex_layout = PositionNormalUvVertex::getVertexLayout();
 
             m_vertex_buffer_handle = bgfx::createVertexBuffer(
-                bgfx::makeRef(m_vertices.data(), sizeof(PositionNormalVertex) * m_vertices.size()), vertex_layout);
+                bgfx::makeRef(m_vertices.data(), sizeof(PositionNormalUvVertex) * m_vertices.size()),
+                vertex_layout);
             m_index_buffer_handle = bgfx::createIndexBuffer(
                 bgfx::makeRef(m_triangle_list.data(), sizeof(uint16_t) * m_triangle_list.size()));
 
