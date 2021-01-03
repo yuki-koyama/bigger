@@ -2,7 +2,7 @@ $input v_pos, v_view, v_normal, v_texcoord0
 
 #include <bgfx_shader.sh>
 
-SAMPLER2D(s_tex_color, 0);
+SAMPLER2D(s_tex_diffuse, 0);
 
 struct DirLight
 {
@@ -68,7 +68,7 @@ void main()
     vec3 linear_color = vec3(0.0, 0.0, 0.0);
 
     // Retrieve the diffuse color from sampler
-    vec3 diffuse_color = convertToLinear(texture2D(s_tex_color, v_texcoord0).xyz);
+    vec3 diffuse_color = convertToLinear(texture2D(s_tex_diffuse, v_texcoord0).xyz);
 
     // Assemble the material property
     Material material = Material(

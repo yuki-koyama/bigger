@@ -26,7 +26,7 @@ private:
     std::shared_ptr<bigger::BlinnPhongMaterial> m_mesh_material;
     std::shared_ptr<bigger::MeshPrimitive>      m_mesh_primitive;
 
-    bgfx::TextureHandle m_tex_color = BGFX_INVALID_HANDLE;
+    bgfx::TextureHandle m_tex_diffuse = BGFX_INVALID_HANDLE;
 };
 
 class MeshObject final : public bigger::SceneObject
@@ -76,10 +76,10 @@ void MeshApp::initialize(int argc, char** argv)
     const std::string obj_path = "assets/spot.obj";
     const std::string tex_path = "assets/spot_texture.png";
 
-    m_tex_color = bigger::loadTexture(tex_path.c_str());
+    m_tex_diffuse = bigger::loadTexture(tex_path.c_str());
 
     m_mesh_material = std::make_shared<bigger::BlinnPhongMaterial>();
-    m_mesh_material->setTextureColor(m_tex_color);
+    m_mesh_material->setTexDiffuse(&m_tex_diffuse);
 #else
     const std::string obj_path = "assets/teapot.obj";
 
@@ -123,9 +123,9 @@ void MeshApp::releaseSharedResources()
     m_mesh_material  = nullptr;
     m_mesh_primitive = nullptr;
 
-    if (isValid(m_tex_color))
+    if (isValid(m_tex_diffuse))
     {
-        bgfx::destroy(m_tex_color);
+        bgfx::destroy(m_tex_diffuse);
     }
 }
 

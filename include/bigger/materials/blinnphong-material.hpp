@@ -22,14 +22,14 @@ namespace bigger
 
         BlinnPhongMaterial() : bigger::Material("blinnphong")
         {
-            m_handle_params        = bgfx::createUniform("u_params", bgfx::UniformType::Vec4, num_vec4_uniforms);
-            m_handle_tex_transform = bgfx::createUniform("u_tex_transform", bgfx::UniformType::Mat3);
-            m_handle_tex_color     = bgfx::createUniform("s_tex_color", bgfx::UniformType::Sampler);
+            u_params        = bgfx::createUniform("u_params", bgfx::UniformType::Vec4, num_vec4_uniforms);
+            u_tex_transform = bgfx::createUniform("u_tex_transform", bgfx::UniformType::Mat3);
+            s_tex_diffuse   = bgfx::createUniform("s_tex_diffuse", bgfx::UniformType::Sampler);
 
             constexpr bgfx::TextureFormat::Enum format = bgfx::TextureFormat::RGBA32F;
             constexpr uint64_t                  flags  = BGFX_TEXTURE_NONE | BGFX_SAMPLER_NONE;
 
-            m_tex_color_alt = bgfx::createTexture2D(1, 1, false, 1, format, flags, nullptr);
+            m_tex_diffuse_alt = bgfx::createTexture2D(1, 1, false, 1, format, flags, nullptr);
 
 #if BX_PLATFORM_OSX
             // This is an ad-hoc hotfix to avoid the Metal API Validation assertion; see
@@ -40,18 +40,18 @@ namespace bigger
 
         ~BlinnPhongMaterial()
         {
-            bgfx::destroy(m_handle_params);
-            bgfx::destroy(m_handle_tex_color);
-            bgfx::destroy(m_handle_tex_transform);
+            bgfx::destroy(u_params);
+            bgfx::destroy(s_tex_diffuse);
+            bgfx::destroy(u_tex_transform);
 
-            bgfx::destroy(m_tex_color_alt);
+            bgfx::destroy(m_tex_diffuse_alt);
         }
 
-        void setTextureColor(bgfx::TextureHandle tex_color)
+        void setTexDiffuse(bgfx::TextureHandle* tex_diffuse)
         {
-            assert(isValid(tex_color));
+            assert(isValid(*tex_diffuse));
 
-            m_tex_color   = tex_color;
+            m_tex_diffuse = tex_diffuse;
             m_is_textured = true;
         }
 
@@ -61,15 +61,15 @@ namespace bigger
             constexpr float dummy = 0.0f;
 
             const std::array<glm::vec4, num_vec4_uniforms> buffer = {{
-                {u_diffuse, dummy},
-                {u_specular, dummy},
-                {u_ambient, u_shininess},
-                {u_dir_lights[0].dir, dummy},
-                {u_dir_lights[0].color, dummy},
-                {u_dir_lights[1].dir, dummy},
-                {u_dir_lights[1].color, dummy},
+                {m_diffuse, dummy},
+                {m_specular, dummy},
+                {m_ambient, m_shininess},
+                {m_dir_lights[0].dir, dummy},
+                {m_dir_lights[0].color, dummy},
+                {m_dir_lights[1].dir, dummy},
+                {m_dir_lights[1].color, dummy},
             }};
-            bgfx::setUniform(m_handle_params, buffer.data(), num_vec4_uniforms);
+            bgfx::setUniform(u_params, buffer.data(), num_vec4_uniforms);
 
             // Set the transform matrix for texture coordinates
 #if false
@@ -79,27 +79,27 @@ namespace bigger
             constexpr float texture_transform[] =
                 {1.0f, 0.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f, 1.0f, 1.0f}; // Flip vertically
 #endif
-            bgfx::setUniform(m_handle_tex_transform, texture_transform);
+            bgfx::setUniform(u_tex_transform, texture_transform);
 
             // Set the diffuse color
             if (m_is_textured)
             {
-                bgfx::setTexture(0, m_handle_tex_color, m_tex_color);
+                bgfx::setTexture(0, s_tex_diffuse, *m_tex_diffuse);
             }
             else
             {
                 // Create and set a 1x1 small diffuse color texture
                 static float color[4] = {1.0f, 1.0f, 1.0f, 1.0f};
 
-                color[0] = u_diffuse.r;
-                color[1] = u_diffuse.g;
-                color[2] = u_diffuse.b;
+                color[0] = m_diffuse.r;
+                color[1] = m_diffuse.g;
+                color[2] = m_diffuse.b;
 
                 const bgfx::Memory* mem = bgfx::makeRef(color, sizeof(float) * 4);
 
                 // Update the texture with the current color
-                bgfx::updateTexture2D(m_tex_color_alt, 0, 0, 0, 0, 1, 1, mem);
-                bgfx::setTexture(0, m_handle_tex_color, m_tex_color_alt);
+                bgfx::updateTexture2D(m_tex_diffuse_alt, 0, 0, 0, 0, 1, 1, mem);
+                bgfx::setTexture(0, s_tex_diffuse, m_tex_diffuse_alt);
             }
         }
 
@@ -112,23 +112,23 @@ namespace bigger
             }
             else
             {
-                ImGui::ColorEdit3("diffuse", glm::value_ptr(u_diffuse));
+                ImGui::ColorEdit3("diffuse", glm::value_ptr(m_diffuse));
             }
-            ImGui::ColorEdit3("specular", glm::value_ptr(u_specular));
-            ImGui::ColorEdit3("ambient", glm::value_ptr(u_ambient));
-            ImGui::SliderFloat("shininess", &u_shininess, 0.5f, 256.0f);
-            ImGui::SliderFloat3("dir_light_0_dir", glm::value_ptr(u_dir_lights[0].dir), -1.0f, 1.0f);
-            ImGui::ColorEdit3("dir_light_0_color", glm::value_ptr(u_dir_lights[0].color));
-            ImGui::SliderFloat3("dir_light_1_dir", glm::value_ptr(u_dir_lights[1].dir), -1.0f, 1.0f);
-            ImGui::ColorEdit3("dir_light_1_color", glm::value_ptr(u_dir_lights[1].color));
+            ImGui::ColorEdit3("specular", glm::value_ptr(m_specular));
+            ImGui::ColorEdit3("ambient", glm::value_ptr(m_ambient));
+            ImGui::SliderFloat("shininess", &m_shininess, 0.5f, 256.0f);
+            ImGui::SliderFloat3("dir_light_0_dir", glm::value_ptr(m_dir_lights[0].dir), -1.0f, 1.0f);
+            ImGui::ColorEdit3("dir_light_0_color", glm::value_ptr(m_dir_lights[0].color));
+            ImGui::SliderFloat3("dir_light_1_dir", glm::value_ptr(m_dir_lights[1].dir), -1.0f, 1.0f);
+            ImGui::ColorEdit3("dir_light_1_color", glm::value_ptr(m_dir_lights[1].color));
         }
 
-        glm::vec3 u_diffuse   = glm::vec3(0.78f, 0.71f, 0.85f);
-        glm::vec3 u_specular  = glm::vec3(1.00f, 1.00f, 1.00f);
-        glm::vec3 u_ambient   = glm::vec3(0.00f, 0.00f, 0.00f);
-        float     u_shininess = 128.0f;
+        glm::vec3 m_diffuse   = glm::vec3(0.78f, 0.71f, 0.85f);
+        glm::vec3 m_specular  = glm::vec3(1.00f, 1.00f, 1.00f);
+        glm::vec3 m_ambient   = glm::vec3(0.00f, 0.00f, 0.00f);
+        float     m_shininess = 128.0f;
 
-        std::array<DirLight, 2> u_dir_lights = {{
+        std::array<DirLight, 2> m_dir_lights = {{
             DirLight{{+0.5, +0.5, +1.0}, {1.0, 0.9, 0.9}},
             DirLight{{-1.0, +0.0, +0.0}, {0.2, 0.2, 0.5}},
         }};
@@ -141,19 +141,19 @@ namespace bigger
         // Handles managed by this class.
         // -------------------------------------------------------------------------------------------------------------
 
-        bgfx::UniformHandle m_handle_params;
-        bgfx::UniformHandle m_handle_tex_color;
-        bgfx::UniformHandle m_handle_tex_transform;
+        bgfx::UniformHandle u_params;
+        bgfx::UniformHandle u_tex_transform;
+        bgfx::UniformHandle s_tex_diffuse;
 
         /// \brief Texture handle that will be used when no diffuse texture is set.
-        bgfx::TextureHandle m_tex_color_alt = BGFX_INVALID_HANDLE;
+        bgfx::TextureHandle m_tex_diffuse_alt = BGFX_INVALID_HANDLE;
 
         // -------------------------------------------------------------------------------------------------------------
         // Handles not managed by this class.
         // -------------------------------------------------------------------------------------------------------------
 
         /// \brief Texture handle for diffuse color, which should be set and managed by another class.
-        bgfx::TextureHandle m_tex_color = BGFX_INVALID_HANDLE;
+        bgfx::TextureHandle* m_tex_diffuse = nullptr;
     };
 } // namespace bigger
 
