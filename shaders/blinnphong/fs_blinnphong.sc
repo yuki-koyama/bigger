@@ -18,15 +18,14 @@ struct Material
     float shininess;
 };
 
-uniform vec4 u_params[7];
-#define u_diffuse           u_params[0].xyz
-#define u_specular          u_params[1].xyz
-#define u_ambient           u_params[2].xyz
-#define u_shininess         u_params[2].w
-#define u_dir_light_0_dir   u_params[3].xyz
-#define u_dir_light_0_color u_params[4].xyz
-#define u_dir_light_1_dir   u_params[5].xyz
-#define u_dir_light_1_color u_params[6].xyz
+uniform vec4 u_params[6];
+#define u_specular          u_params[0].xyz
+#define u_ambient           u_params[1].xyz
+#define u_shininess         u_params[1].w
+#define u_dir_light_0_dir   u_params[2].xyz
+#define u_dir_light_0_color u_params[3].xyz
+#define u_dir_light_1_dir   u_params[4].xyz
+#define u_dir_light_1_color u_params[5].xyz
 
 const float gamma = 2.2;
 

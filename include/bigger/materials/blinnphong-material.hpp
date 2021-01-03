@@ -12,7 +12,7 @@ namespace bigger
     class BlinnPhongMaterial final : public Material
     {
     public:
-        static constexpr unsigned int num_vec4_uniforms = 7;
+        static constexpr unsigned int num_vec4_uniforms = 6;
 
         struct DirLight
         {
@@ -61,7 +61,6 @@ namespace bigger
             constexpr float dummy = 0.0f;
 
             const std::array<glm::vec4, num_vec4_uniforms> buffer = {{
-                {m_diffuse, dummy},
                 {m_specular, dummy},
                 {m_ambient, m_shininess},
                 {m_dir_lights[0].dir, dummy},
