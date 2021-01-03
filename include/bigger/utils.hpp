@@ -2,7 +2,6 @@
 #define BIGGER_UTILS_HPP
 
 #include <bgfx/bgfx.h>
-#include <bimg/bimg.h>
 #include <string>
 
 namespace bigger
