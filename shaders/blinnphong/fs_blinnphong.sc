@@ -2,6 +2,8 @@ $input v_pos, v_view, v_normal, v_texcoord0
 
 #include <bgfx_shader.sh>
 
+SAMPLER2D(s_tex_color, 0);
+
 struct DirLight
 {
     vec3 dir;
@@ -51,6 +53,11 @@ vec3 calculateSingleLightShading(DirLight dir_light, Material material, vec3 nor
     return diffuse + specular;
 }
 
+vec3 convertToLinear(vec3 gamma_color)
+{
+    return pow(gamma_color, vec3_splat(gamma));
+}
+
 vec3 convertToGamma(vec3 linear_color)
 {
     return pow(linear_color, vec3_splat(1.0 / gamma));
@@ -60,14 +67,18 @@ void main()
 {
     vec3 linear_color = vec3(0.0, 0.0, 0.0);
 
+    // Retrieve the diffuse color from sampler
+    vec3 diffuse_color = convertToLinear(texture2D(s_tex_color, v_texcoord0).xyz);
+
+    // Assemble the material property
     Material material = Material(
-        u_diffuse,
+        diffuse_color,
         u_specular,
         u_ambient,
         u_shininess
     );
 
-    // When the triangle is back-facing, the normal direction will be flipped
+    // Note: When the triangle is back-facing, the normal direction will be flipped
     vec3 view_dir = normalize(- v_view);
     vec3 normal = dot(v_normal, view_dir) > 0.0 ? normalize(v_normal) : normalize(- v_normal);
 
