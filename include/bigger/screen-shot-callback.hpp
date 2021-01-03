@@ -43,8 +43,14 @@ namespace bigger
             {
                 if (image_type == ImageType::Png)
                 {
-                    bimg::imageWritePng(
-                        &writer, _width, _height, _pitch, _data, bimg::TextureFormat::BGRA8, _yflip, nullptr);
+                    bimg::imageWritePng(&writer,
+                                        _width,
+                                        _height,
+                                        _pitch,
+                                        _data,
+                                        bimg::TextureFormat::BGRA8,
+                                        _yflip,
+                                        nullptr);
                 }
                 else
                 {

@@ -59,7 +59,8 @@ namespace bigger
             const bgfx::VertexLayout vertex_layout = PositionNormalUvVertex::getVertexLayout();
 
             m_vertex_buffer_handle = bgfx::createVertexBuffer(
-                bgfx::makeRef(m_vertices.data(), sizeof(PositionNormalUvVertex) * m_vertices.size()), vertex_layout);
+                bgfx::makeRef(m_vertices.data(), sizeof(PositionNormalUvVertex) * m_vertices.size()),
+                vertex_layout);
             m_index_buffer_handle = bgfx::createIndexBuffer(
                 bgfx::makeRef(m_triangle_list.data(), sizeof(uint16_t) * m_triangle_list.size()));
 
