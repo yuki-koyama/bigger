@@ -41,8 +41,8 @@ namespace bigger
         ~BlinnPhongMaterial()
         {
             bgfx::destroy(u_params);
-            bgfx::destroy(s_tex_diffuse);
             bgfx::destroy(u_tex_transform);
+            bgfx::destroy(s_tex_diffuse);
 
             bgfx::destroy(m_tex_diffuse_alt);
         }
