@@ -23,6 +23,12 @@ namespace bigger
         BlinnPhongMaterial() : bigger::Material("blinnphong")
         {
             m_handle = bgfx::createUniform("u_params", bgfx::UniformType::Vec4, num_vec4_uniforms);
+
+#if BX_PLATFORM_OSX
+            // This is an ad-hoc hotfix to avoid the Metal API Validation assertion; see
+            // https://github.com/yuki-koyama/bigger/issues/13
+            bgfx::createUniform("s_texColor", bgfx::UniformType::Sampler);
+#endif
         }
 
         ~BlinnPhongMaterial() { bgfx::destroy(m_handle); }
