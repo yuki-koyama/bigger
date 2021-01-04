@@ -25,17 +25,18 @@ private:
     // Shared resources
     std::shared_ptr<bigger::MatcapMaterial> m_mesh_material;
     std::shared_ptr<bigger::MeshPrimitive>  m_mesh_primitive;
+    std::array<bgfx::TextureHandle, 4>      m_tex_matcaps;
 
-    int                                m_matcap_index = 1;
-    std::array<bgfx::TextureHandle, 4> m_tex_matcaps;
+    // Current state
+    int m_matcap_index = 1;
 
+    // Static resources
     static constexpr std::array<const char*, 4> k_matcap_paths = {
         "assets/matcap/ceramic_dark.png",
         "assets/matcap/ceramic_lightbulb.png",
         "assets/matcap/clay_studio.png",
         "assets/matcap/jade.png",
     };
-
     static constexpr std::array<const char*, 4> k_matcap_names = {
         "Ceramic Dark",
         "Ceramic Lightbulb",
