@@ -67,6 +67,9 @@ set(shaders
   ${CMAKE_CURRENT_SOURCE_DIR}/shaders/blinnphong/vs_blinnphong.sc
   ${CMAKE_CURRENT_SOURCE_DIR}/shaders/blinnphong/fs_blinnphong.sc
   ${CMAKE_CURRENT_SOURCE_DIR}/shaders/blinnphong/varying.def.sc
+  ${CMAKE_CURRENT_SOURCE_DIR}/shaders/matcap/vs_matcap.sc
+  ${CMAKE_CURRENT_SOURCE_DIR}/shaders/matcap/fs_matcap.sc
+  ${CMAKE_CURRENT_SOURCE_DIR}/shaders/matcap/varying.def.sc
 )
 
 add_library(bigger STATIC ${headers} ${sources} ${shaders})
@@ -77,6 +80,8 @@ set(BIGGER_SHADER_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/shaders CACHE STRING ""
 
 add_shader(${CMAKE_CURRENT_SOURCE_DIR}/shaders/blinnphong/vs_blinnphong.sc VERTEX   OUTPUT ${BIGGER_SHADER_OUTPUT_DIR} DX11_MODEL 5_0 GLSL 130)
 add_shader(${CMAKE_CURRENT_SOURCE_DIR}/shaders/blinnphong/fs_blinnphong.sc FRAGMENT OUTPUT ${BIGGER_SHADER_OUTPUT_DIR} DX11_MODEL 5_0 GLSL 130)
+add_shader(${CMAKE_CURRENT_SOURCE_DIR}/shaders/matcap/vs_matcap.sc VERTEX   OUTPUT ${BIGGER_SHADER_OUTPUT_DIR} DX11_MODEL 5_0 GLSL 130)
+add_shader(${CMAKE_CURRENT_SOURCE_DIR}/shaders/matcap/fs_matcap.sc FRAGMENT OUTPUT ${BIGGER_SHADER_OUTPUT_DIR} DX11_MODEL 5_0 GLSL 130)
 
 option(BIGGER_EXAMPLES ON "")
 if(BIGGER_EXAMPLES)
