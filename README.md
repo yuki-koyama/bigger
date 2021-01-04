@@ -41,6 +41,7 @@ This library, named `bigger`, is a prototype-oriented middleware library for 3D 
   - Sphere primitive
 - Materials
   - Blinn-Phong material
+  - MatCap material
 
 ## App Event Cycle
 
