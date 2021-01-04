@@ -26,13 +26,21 @@ private:
     std::shared_ptr<bigger::MatcapMaterial> m_mesh_material;
     std::shared_ptr<bigger::MeshPrimitive>  m_mesh_primitive;
 
-    bgfx::TextureHandle m_tex_matcap = BGFX_INVALID_HANDLE;
+    int                                m_matcap_index = 1;
+    std::array<bgfx::TextureHandle, 4> m_tex_matcaps;
 
     static constexpr std::array<const char*, 4> k_matcap_paths = {
         "assets/matcap/ceramic_dark.png",
         "assets/matcap/ceramic_lightbulb.png",
         "assets/matcap/clay_studio.png",
         "assets/matcap/jade.png",
+    };
+
+    static constexpr std::array<const char*, 4> k_matcap_names = {
+        "Ceramic Dark",
+        "Ceramic Lightbulb",
+        "Clay Studio",
+        "Jade",
     };
 };
 
@@ -75,17 +83,25 @@ private:
 
 void MatcapApp::initialize(int argc, char** argv)
 {
+    assert(std::size(m_tex_matcaps) == std::size(k_matcap_paths));
+    assert(std::size(m_tex_matcaps) == std::size(k_matcap_names));
+
     // Register and apply BGFX configuration settings
     reset(BGFX_RESET_VSYNC | BGFX_RESET_MSAA_X8);
 
-    // Instantiate shared resources
-    const std::string obj_path = "assets/spot.obj";
-    const std::string tex_path = k_matcap_paths[1];
+    // Instantiate shared resources (matcap textures)
+    for (int i = 0; i < std::size(m_tex_matcaps); ++i)
+    {
+        m_tex_matcaps[i] = bigger::loadTexture(k_matcap_paths[i]);
+    }
 
-    m_tex_matcap = bigger::loadTexture(tex_path.c_str());
-
+    // Instantiate shared resources (matcap material)
     m_mesh_material = std::make_shared<bigger::MatcapMaterial>();
-    m_mesh_material->setTexMatcap(&m_tex_matcap);
+
+    m_mesh_material->setTexMatcap(&(m_tex_matcaps[m_matcap_index]));
+
+    // Instantiate shared resources (mesh)
+    const std::string obj_path = "assets/spot.obj";
 
     m_mesh_primitive = std::make_shared<bigger::MeshPrimitive>(obj_path);
 
@@ -114,6 +130,15 @@ void MatcapApp::updateApp()
         getCamera().drawImgui();
         ImGui::Separator();
         m_mesh_material->drawImgui();
+        ImGui::Separator();
+        ImGui::Text("App Setting");
+        if (ImGui::Combo("MatCap", &m_matcap_index, k_matcap_names.data(), std::size(k_matcap_names)))
+        {
+            assert(m_matcap_index < std::size(m_tex_matcaps));
+
+            // Update the MatCap texture
+            m_mesh_material->setTexMatcap(&(m_tex_matcaps[m_matcap_index]));
+        }
     }
     ImGui::End();
 }
@@ -124,9 +149,9 @@ void MatcapApp::releaseSharedResources()
     m_mesh_material  = nullptr;
     m_mesh_primitive = nullptr;
 
-    if (isValid(m_tex_matcap))
+    for (int i = 0; i < std::size(m_tex_matcaps); ++i)
     {
-        bgfx::destroy(m_tex_matcap);
+        bgfx::destroy(m_tex_matcaps[i]);
     }
 }
 
