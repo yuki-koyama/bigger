@@ -32,9 +32,9 @@ private:
 class MeshObject final : public bigger::SceneObject
 {
 public:
-    MeshObject(const MeshApp*                              app,
-               std::shared_ptr<bigger::BlinnPhongMaterial> material,
-               std::shared_ptr<bigger::MeshPrimitive>      mesh)
+    MeshObject(const MeshApp*                         app,
+               std::shared_ptr<bigger::Material>      material,
+               std::shared_ptr<bigger::MeshPrimitive> mesh)
         : bigger::SceneObject(material), m_app(app), m_primitive(mesh)
     {
         assert(app != nullptr);
