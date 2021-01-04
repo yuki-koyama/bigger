@@ -35,11 +35,11 @@ private:
 class CubeObject final : public bigger::SceneObject
 {
 public:
-    CubeObject(const CubesApp*                             app,
-               const int                                   x,
-               const int                                   y,
-               std::shared_ptr<bigger::BlinnPhongMaterial> material,
-               std::shared_ptr<bigger::CubePrimitive>      cube)
+    CubeObject(const CubesApp*                        app,
+               const int                              x,
+               const int                              y,
+               std::shared_ptr<bigger::Material>      material,
+               std::shared_ptr<bigger::CubePrimitive> cube)
         : bigger::SceneObject(material), m_x(x), m_y(y), m_app(app), m_cube(cube)
     {
         assert(app != nullptr);

@@ -49,6 +49,7 @@ set(headers
   ${CMAKE_CURRENT_SOURCE_DIR}/include/bigger/screen-shot-callback.hpp
   ${CMAKE_CURRENT_SOURCE_DIR}/include/bigger/utils.hpp
   ${CMAKE_CURRENT_SOURCE_DIR}/include/bigger/materials/blinnphong-material.hpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/include/bigger/materials/matcap-material.hpp
   ${CMAKE_CURRENT_SOURCE_DIR}/include/bigger/primitives/cube-primitive.hpp
   ${CMAKE_CURRENT_SOURCE_DIR}/include/bigger/primitives/dynamic-mesh-primitive.hpp
   ${CMAKE_CURRENT_SOURCE_DIR}/include/bigger/primitives/mesh-primitive.hpp
@@ -66,6 +67,9 @@ set(shaders
   ${CMAKE_CURRENT_SOURCE_DIR}/shaders/blinnphong/vs_blinnphong.sc
   ${CMAKE_CURRENT_SOURCE_DIR}/shaders/blinnphong/fs_blinnphong.sc
   ${CMAKE_CURRENT_SOURCE_DIR}/shaders/blinnphong/varying.def.sc
+  ${CMAKE_CURRENT_SOURCE_DIR}/shaders/matcap/vs_matcap.sc
+  ${CMAKE_CURRENT_SOURCE_DIR}/shaders/matcap/fs_matcap.sc
+  ${CMAKE_CURRENT_SOURCE_DIR}/shaders/matcap/varying.def.sc
 )
 
 add_library(bigger STATIC ${headers} ${sources} ${shaders})
@@ -76,6 +80,8 @@ set(BIGGER_SHADER_OUTPUT_DIR ${CMAKE_CURRENT_BINARY_DIR}/shaders CACHE STRING ""
 
 add_shader(${CMAKE_CURRENT_SOURCE_DIR}/shaders/blinnphong/vs_blinnphong.sc VERTEX   OUTPUT ${BIGGER_SHADER_OUTPUT_DIR} DX11_MODEL 5_0 GLSL 130)
 add_shader(${CMAKE_CURRENT_SOURCE_DIR}/shaders/blinnphong/fs_blinnphong.sc FRAGMENT OUTPUT ${BIGGER_SHADER_OUTPUT_DIR} DX11_MODEL 5_0 GLSL 130)
+add_shader(${CMAKE_CURRENT_SOURCE_DIR}/shaders/matcap/vs_matcap.sc VERTEX   OUTPUT ${BIGGER_SHADER_OUTPUT_DIR} DX11_MODEL 5_0 GLSL 130)
+add_shader(${CMAKE_CURRENT_SOURCE_DIR}/shaders/matcap/fs_matcap.sc FRAGMENT OUTPUT ${BIGGER_SHADER_OUTPUT_DIR} DX11_MODEL 5_0 GLSL 130)
 
 option(BIGGER_EXAMPLES ON "")
 if(BIGGER_EXAMPLES)
@@ -90,4 +96,9 @@ if(BIGGER_EXAMPLES)
   target_link_libraries(mesh bigger)
   add_custom_command(TARGET mesh POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory ${BIGGER_SHADER_OUTPUT_DIR} $<TARGET_FILE_DIR:mesh>/shaders)
   add_custom_command(TARGET mesh POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/assets $<TARGET_FILE_DIR:mesh>/assets)
+
+  add_executable(matcaps ${CMAKE_CURRENT_SOURCE_DIR}/examples/matcaps/main.cpp)
+  target_link_libraries(matcaps bigger)
+  add_custom_command(TARGET matcaps POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory ${BIGGER_SHADER_OUTPUT_DIR} $<TARGET_FILE_DIR:matcaps>/shaders)
+  add_custom_command(TARGET matcaps POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/assets $<TARGET_FILE_DIR:matcaps>/assets)
 endif()

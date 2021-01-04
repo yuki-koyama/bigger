@@ -1,6 +1,6 @@
 #include <array>
 #include <bigger/app.hpp>
-#include <bigger/materials/blinnphong-material.hpp>
+#include <bigger/materials/matcap-material.hpp>
 #include <bigger/primitives/mesh-primitive.hpp>
 #include <bigger/scene-object.hpp>
 #include <cmath>
@@ -10,10 +10,10 @@
 
 class MeshObject;
 
-class MeshApp final : public bigger::App
+class MatcapApp final : public bigger::App
 {
 public:
-    MeshApp() { getCamera().m_target = glm::vec3(0.0f, 0.3f, 0.0f); }
+    MatcapApp() { getCamera().m_target = glm::vec3(0.0f, 0.1f, 0.0f); }
 
     void initialize(int argc, char** argv) override;
     void onReset() override;
@@ -23,16 +23,32 @@ public:
 
 private:
     // Shared resources
-    std::shared_ptr<bigger::BlinnPhongMaterial> m_mesh_material;
-    std::shared_ptr<bigger::MeshPrimitive>      m_mesh_primitive;
+    std::shared_ptr<bigger::MatcapMaterial> m_mesh_material;
+    std::shared_ptr<bigger::MeshPrimitive>  m_mesh_primitive;
+    std::array<bgfx::TextureHandle, 4>      m_tex_matcaps;
 
-    bgfx::TextureHandle m_tex_diffuse = BGFX_INVALID_HANDLE;
+    // Current state
+    int m_matcap_index = 1;
+
+    // Static resources
+    static constexpr std::array<const char*, 4> k_matcap_paths = {
+        "assets/matcap/ceramic_dark.png",
+        "assets/matcap/ceramic_lightbulb.png",
+        "assets/matcap/clay_studio.png",
+        "assets/matcap/jade.png",
+    };
+    static constexpr std::array<const char*, 4> k_matcap_names = {
+        "Ceramic Dark",
+        "Ceramic Lightbulb",
+        "Clay Studio",
+        "Jade",
+    };
 };
 
 class MeshObject final : public bigger::SceneObject
 {
 public:
-    MeshObject(const MeshApp*                         app,
+    MeshObject(const MatcapApp*                       app,
                std::shared_ptr<bigger::Material>      material,
                std::shared_ptr<bigger::MeshPrimitive> mesh)
         : bigger::SceneObject(material), m_app(app), m_primitive(mesh)
@@ -60,31 +76,33 @@ public:
 
 private:
     // Pointer to the app
-    const MeshApp* m_app;
+    const MatcapApp* m_app;
 
     // Assigned resources
     std::shared_ptr<bigger::MeshPrimitive> m_primitive;
 };
 
-void MeshApp::initialize(int argc, char** argv)
+void MatcapApp::initialize(int argc, char** argv)
 {
+    assert(std::size(m_tex_matcaps) == std::size(k_matcap_paths));
+    assert(std::size(m_tex_matcaps) == std::size(k_matcap_names));
+
     // Register and apply BGFX configuration settings
     reset(BGFX_RESET_VSYNC | BGFX_RESET_MSAA_X8);
 
-    // Instantiate shared resources
-#if false
+    // Instantiate shared resources (matcap textures)
+    for (int i = 0; i < std::size(m_tex_matcaps); ++i)
+    {
+        m_tex_matcaps[i] = bigger::loadTexture(k_matcap_paths[i]);
+    }
+
+    // Instantiate shared resources (matcap material)
+    m_mesh_material = std::make_shared<bigger::MatcapMaterial>();
+
+    m_mesh_material->setTexMatcap(&(m_tex_matcaps[m_matcap_index]));
+
+    // Instantiate shared resources (mesh)
     const std::string obj_path = "assets/spot.obj";
-    const std::string tex_path = "assets/spot_texture.png";
-
-    m_tex_diffuse = bigger::loadTexture(tex_path.c_str());
-
-    m_mesh_material = std::make_shared<bigger::BlinnPhongMaterial>();
-    m_mesh_material->setTexDiffuse(&m_tex_diffuse);
-#else
-    const std::string obj_path = "assets/teapot.obj";
-
-    m_mesh_material = std::make_shared<bigger::BlinnPhongMaterial>();
-#endif
 
     m_mesh_primitive = std::make_shared<bigger::MeshPrimitive>(obj_path);
 
@@ -94,14 +112,14 @@ void MeshApp::initialize(int argc, char** argv)
     addSceneObject(mesh_object);
 }
 
-void MeshApp::onReset()
+void MatcapApp::onReset()
 {
     constexpr uint32_t bg_color = 0x303030ff;
 
     bgfx::setViewClear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, bg_color, 1.0f, 0);
 }
 
-void MeshApp::updateApp()
+void MatcapApp::updateApp()
 {
     // Display ImGui components
     ImGui::Begin("Config");
@@ -113,24 +131,33 @@ void MeshApp::updateApp()
         getCamera().drawImgui();
         ImGui::Separator();
         m_mesh_material->drawImgui();
+        ImGui::Separator();
+        ImGui::Text("App Setting");
+        if (ImGui::Combo("MatCap", &m_matcap_index, k_matcap_names.data(), std::size(k_matcap_names)))
+        {
+            assert(m_matcap_index < std::size(m_tex_matcaps));
+
+            // Update the MatCap texture
+            m_mesh_material->setTexMatcap(&(m_tex_matcaps[m_matcap_index]));
+        }
     }
     ImGui::End();
 }
 
-void MeshApp::releaseSharedResources()
+void MatcapApp::releaseSharedResources()
 {
     // Release shared resources
     m_mesh_material  = nullptr;
     m_mesh_primitive = nullptr;
 
-    if (isValid(m_tex_diffuse))
+    for (int i = 0; i < std::size(m_tex_matcaps); ++i)
     {
-        bgfx::destroy(m_tex_diffuse);
+        bgfx::destroy(m_tex_matcaps[i]);
     }
 }
 
 int main(int argc, char** argv)
 {
-    MeshApp app;
+    MatcapApp app;
     return app.runApp(argc, argv);
 }
