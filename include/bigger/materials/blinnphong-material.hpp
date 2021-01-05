@@ -88,13 +88,12 @@ namespace bigger
             else
             {
                 // Create and set a 1x1 small diffuse color texture
-                static float color[4] = {1.0f, 1.0f, 1.0f, 1.0f};
+                m_buffer_tex_diffuse_alt[0] = m_diffuse.r;
+                m_buffer_tex_diffuse_alt[1] = m_diffuse.g;
+                m_buffer_tex_diffuse_alt[2] = m_diffuse.b;
+                m_buffer_tex_diffuse_alt[3] = 1.0;
 
-                color[0] = m_diffuse.r;
-                color[1] = m_diffuse.g;
-                color[2] = m_diffuse.b;
-
-                const bgfx::Memory* mem = bgfx::makeRef(color, sizeof(float) * 4);
+                const bgfx::Memory* mem = bgfx::makeRef(std::data(m_buffer_tex_diffuse_alt), sizeof(float) * 4);
 
                 // Update the texture with the current color
                 bgfx::updateTexture2D(m_tex_diffuse_alt, 0, 0, 0, 0, 1, 1, mem);
@@ -135,6 +134,9 @@ namespace bigger
     private:
         /// \brief Boolean indicating whether a diffuse texture is set by another class or not.
         bool m_is_textured = false;
+
+        /// \brief Buffer for internal use.
+        std::array<float, 4> m_buffer_tex_diffuse_alt;
 
         // -------------------------------------------------------------------------------------------------------------
         // Handles managed by this class.
