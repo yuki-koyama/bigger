@@ -4,6 +4,7 @@
 #include <bgfx/bgfx.h>
 #include <bimg/bimg.h>
 #include <bx/file.h>
+#include <stdexcept>
 
 namespace bigger
 {
