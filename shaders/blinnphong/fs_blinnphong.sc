@@ -70,19 +70,24 @@ void main()
     vec3 diffuse_color = convertToLinear(texture2D(s_tex_diffuse, v_texcoord0).xyz);
 
     // Assemble the material property
-    Material material = Material(
-        diffuse_color,
-        u_specular,
-        u_ambient,
-        u_shininess
-    );
+    Material material;
+    material.diffuse = diffuse_color;
+    material.specular = u_specular;
+    material.ambient = u_ambient;
+    material.shininess = u_shininess;
 
     // Note: When the triangle is back-facing, the normal direction will be flipped
     vec3 view_dir = normalize(- v_view);
     vec3 normal = dot(v_normal, view_dir) > 0.0 ? normalize(v_normal) : normalize(- v_normal);
 
-    linear_color += calculateSingleLightShading(DirLight(u_dir_light_0_dir, u_dir_light_0_color), material, normal, view_dir);
-    linear_color += calculateSingleLightShading(DirLight(u_dir_light_1_dir, u_dir_light_1_color), material, normal, view_dir);
+    DirLight dir_light_0, dir_light_1;
+    dir_light_0.dir = u_dir_light_0_dir;
+    dir_light_0.intensity = u_dir_light_0_color;
+    dir_light_1.dir = u_dir_light_1_dir;
+    dir_light_1.intensity = u_dir_light_1_color;
+
+    linear_color += calculateSingleLightShading(dir_light_0, material, normal, view_dir);
+    linear_color += calculateSingleLightShading(dir_light_1, material, normal, view_dir);
 
     linear_color += material.ambient;
 

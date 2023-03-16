@@ -15,5 +15,5 @@ void main()
     v_view = mul(u_modelView, vec4(a_position, 1.0)).xyz;
     v_normal = mul(u_modelView, vec4(a_normal, 0.0)).xyz;
 
-    v_texcoord0 = (u_tex_transform * vec3(a_texcoord0, 1.0)).xy;
+    v_texcoord0 = mul(u_tex_transform, vec3(a_texcoord0, 1.0)).xy;
 }
