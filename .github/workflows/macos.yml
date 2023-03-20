@@ -4,16 +4,15 @@ on: [push]
 
 jobs:
   build-test:
-
     runs-on: macos-latest
 
     steps:
-    - uses: actions/checkout@v1
-    - name: install-build-dependencies
-      run: echo "No build dependencies"
-    - name: submodule
-      run: git submodule update --init --recursive
-    - name: cmake -DBIGGER_EXAMPLES=ON
-      run: cmake .
-    - name: make
-      run: make
+      - uses: actions/checkout@v1
+      - name: install-build-dependencies
+        run: echo "No build dependencies"
+      - name: submodule
+        run: git submodule update --init --recursive
+      - name: cmake -DBIGGER_EXAMPLES=ON
+        run: cmake .
+      - name: make
+        run: make

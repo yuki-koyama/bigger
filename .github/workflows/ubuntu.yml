@@ -4,7 +4,6 @@ on: [push]
 
 jobs:
   build-test:
-
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -12,12 +11,12 @@ jobs:
         os: [ubuntu-18.04, ubuntu-20.04, ubuntu-22.04]
 
     steps:
-    - uses: actions/checkout@v1
-    - name: install-build-dependencies
-      run: sudo apt-get -y install libglu1-mesa-dev xorg-dev
-    - name: submodule
-      run: git submodule update --init --recursive
-    - name: cmake -DBIGGER_EXAMPLES=ON
-      run: cmake .
-    - name: make
-      run: make
+      - uses: actions/checkout@v1
+      - name: install-build-dependencies
+        run: sudo apt-get -y install libglu1-mesa-dev xorg-dev
+      - name: submodule
+        run: git submodule update --init --recursive
+      - name: cmake -DBIGGER_EXAMPLES=ON
+        run: cmake .
+      - name: make
+        run: make
